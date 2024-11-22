@@ -1,0 +1,65 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+	title="Home"
+	description="Welcome to Dave Rodol's personal website. Software engineer and technology enthusiast."
+>
+	<div class="space-y-12">
+		<section class="prose dark:prose-invert lg:prose-lg animate-fade-in">
+			<h1>Hey, I'm David 👋</h1>
+			<p class="lead">
+				I'm a health and safety professional turned self-taught software maker on the side. I'm passionate about solving problems for people and with people.
+				I believe in the power of collaboration and love to learn from others.
+			</p>
+		</section>
+
+		<section class="space-y-4 [animation-delay:200ms] animate-fade-in-up opacity-0">
+			<h2 class="text-2xl font-bold">Current Projects</h2>
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				<a href="https://jobsinenglish.dk" target="_blank" rel="noopener noreferrer">
+					<div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
+						<h3 class="text-xl font-semibold mb-2">jobsinenglish.dk</h3>
+						<p class="text-gray-600 dark:text-gray-300">
+							A job board dedicated to English speaking jobs in Denmark. Helping foreigners find their dream jobs in Denmark.
+						</p>
+					</div>
+				</a>
+				<a href="https://denmarkforexpats.com" target="_blank" rel="noopener noreferrer">
+					<div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
+						<h3 class="text-xl font-semibold mb-2">denmarkforexpats.com</h3>
+						<p class="text-gray-600 dark:text-gray-300">
+							A directory of businesses and services for foreigners in Denmark. Helping expats find their way around in Denmark.
+						</p>
+					</div>
+				</a>
+			</div>
+		</section>
+
+		<section class="space-y-4 [animation-delay:400ms] animate-fade-in-up opacity-0">
+			<h2 class="text-2xl font-bold">Latest Updates</h2>
+			<div class="prose dark:prose-invert">
+				<p>
+					Check out my <a href="/now" class="text-blue-600 dark:text-blue-400 hover:underline">/now page</a> to see what I'm currently focused on,
+					or visit my <a href="/about" class="text-blue-600 dark:text-blue-400 hover:underline">about page</a> to learn more about me.
+				</p>
+			</div>
+		</section>
+	</div>
+</Layout>
+
+<style>
+	@keyframes custom-fade-in {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	section {
+		animation-fill-mode: forwards;
+	}
+</style>

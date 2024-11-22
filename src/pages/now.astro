@@ -1,0 +1,65 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const lastUpdated = new Date().toLocaleDateString('en-US', {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric'
+});
+---
+
+<Layout
+	title="Now"
+	description="What I'm currently focused on and working on right now."
+>
+	<div class="space-y-8 prose dark:prose-invert lg:prose-lg">
+		<section>
+			<h1>What I'm Doing Now</h1>
+			<p class="text-gray-600 dark:text-gray-400">
+				Last updated: {lastUpdated}
+			</p>
+		</section>
+
+		<section>
+			<h2>Current Focus</h2>
+			<ul>
+				<li>Building my personal website using Astro and TailwindCSS</li>
+				<li>Learning SEO, currently going through <a href="https://www.dannypostma.com/seo-course?via=drodol" class="text-blue-600 dark:text-blue-400 hover:underline">Danny Postma's course.</a></li>
+				<li>Improving <a href="https://jobsinenglish.dk" class="text-blue-600 dark:text-blue-400 hover:underline">jobsinenglish.dk</a></li>
+			</ul>
+		</section>
+
+		<section>
+			<h2>Reading</h2>
+			<ul>
+				<li>Derek Sivers's Useful Not True</li>
+
+			</ul>
+		</section>
+
+		<section>
+			<h2>Location</h2>
+			<p>
+				Currently based in Madrid, Spain.
+			<p>
+				Previously lived in:
+				<ul class="list-disc pl-8">
+					<li>Helsingør, Denmark</li>
+					<li>Copenhagen, Denmark</li>
+					<li>Cairo, Egypt</li>
+					<li>Venezuela</li>
+				</ul>
+
+			</p>
+		</section>
+
+		<section>
+			<h2>About this page</h2>
+			<p>
+				This is a <a href="https://nownownow.com/about" class="text-blue-600 dark:text-blue-400 hover:underline">now page</a>,
+				inspired by <a href="https://sive.rs/now" class="text-blue-600 dark:text-blue-400 hover:underline">Derek Sivers</a>.
+				It's a snapshot of what I'm focused on at this point in my life.
+			</p>
+		</section>
+	</div>
+</Layout>

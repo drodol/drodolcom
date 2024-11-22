@@ -1,0 +1,74 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout 
+	title="Contact"
+	description="Get in touch with Dave Rodol - Find me on social media or send me an email."
+>
+	<div class="space-y-8 prose dark:prose-invert lg:prose-lg">
+		<section>
+			<h1>Contact</h1>
+			<p>
+				I'm always open to interesting conversations and opportunities. Here's how you can reach me:
+			</p>
+		</section>
+
+		<section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+			<div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
+				<h2 class="text-xl font-semibold mb-4">Email</h2>
+				<p class="mb-4">The best way to reach me is via email:</p>
+				<a 
+					href="mailto:[Your Email]"
+					class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
+				>
+					[Your Email]
+				</a>
+			</div>
+
+			<div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
+				<h2 class="text-xl font-semibold mb-4">Social Media</h2>
+				<ul class="space-y-2">
+					<li>
+						<a 
+							href="https://github.com/[Your GitHub]"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
+						>
+							GitHub
+						</a>
+					</li>
+					<li>
+						<a 
+							href="https://twitter.com/[Your Twitter]"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
+						>
+							Twitter
+						</a>
+					</li>
+					<li>
+						<a 
+							href="https://linkedin.com/in/[Your LinkedIn]"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
+						>
+							LinkedIn
+						</a>
+					</li>
+				</ul>
+			</div>
+		</section>
+
+		<section>
+			<h2>Response Time</h2>
+			<p>
+				I typically respond to emails within 24-48 hours. For urgent matters, reaching out via Twitter
+				might get a faster response.
+			</p>
+		</section>
+	</div>
+</Layout>
