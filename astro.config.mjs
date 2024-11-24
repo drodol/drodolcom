@@ -3,8 +3,8 @@ import tailwind from '@astrojs/tailwind';
 import alpinejs from "@astrojs/alpinejs";
 
 export default defineConfig({
-  site: 'https://drodol.github.io',  // The domain without the repository name
-  base: '/drodolcom',  // The repository name
+  site: 'https://drodol.com',  // Your custom domain
+  base: '/',  // No subdirectory needed for custom domain
   integrations: [
     tailwind(),
     alpinejs(),
