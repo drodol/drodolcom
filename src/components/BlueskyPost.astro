@@ -8,21 +8,30 @@ interface PostRecord {
     [k: string]: unknown
 }
 
-const session = new CredentialSession(new URL('https://bsky.social'), undefined, undefined)
-const agent = new Agent(session)
-
 const username = import.meta.env.BLUESKY_USERNAME
 const password = import.meta.env.BLUESKY_APP_PASSWORD
 
 let latestPost: (AuthorFeedResponse['feed'][number]['post'] & { record: PostRecord }) | null = null
 let error: string | null = null
 
-try {
-    await session.login({ identifier: username, password })
-    const response = await agent.getAuthorFeed({ actor: username, limit: 1 })
-    latestPost = response.data.feed[0]?.post as (AuthorFeedResponse['feed'][number]['post'] & { record: PostRecord }) ?? null
-} catch (e) {
-    error = e instanceof Error ? e.message : 'Unknown error'
+if (!username || !password) {
+    error = 'Bluesky credentials not configured'
+} else {
+    try {
+        const session = new CredentialSession(new URL('https://bsky.social'), undefined, undefined)
+        const agent = new Agent(session)
+        
+        await session.login({ 
+            identifier: username, 
+            password: password 
+        })
+        
+        const response = await agent.getAuthorFeed({ actor: username, limit: 1 })
+        latestPost = response.data.feed[0]?.post as (AuthorFeedResponse['feed'][number]['post'] & { record: PostRecord }) ?? null
+    } catch (e) {
+        console.error('Bluesky error:', e)
+        error = e instanceof Error ? e.message : 'Unknown error'
+    }
 }
 
 const formatDate = (date: string) => {
