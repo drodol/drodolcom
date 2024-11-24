@@ -57,7 +57,7 @@ let initialPost = null
                             @${post.author.handle}
                         </span>
                     </div>
-                    <p class="text-gray-900 dark:text-white whitespace-pre-wrap break-words">
+                    <p class="text-gray-900 dark:text-white whitespace-pre-wrap break-words my-0">
                         ${post.record.text}
                     </p>
                     <div class="mt-2 flex items-center gap-2">
@@ -93,7 +93,7 @@ let initialPost = null
                     'Pragma': 'no-cache'
                 }
             });
-            
+
             if (!response.ok) throw new Error('Network response was not ok');
 
             const data = await response.json();
