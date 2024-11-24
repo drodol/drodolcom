@@ -5,7 +5,7 @@ interface Props {
 }
 
 const { title, description = "David Rodriguez's personal website" } = Astro.props;
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const base = '/drodolcom'; // Hardcode the base path for GitHub Pages
 ---
 
 <!DOCTYPE html>
