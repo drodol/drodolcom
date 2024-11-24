@@ -9,7 +9,7 @@ import BlueskyPost from '../components/BlueskyPost.astro';
 >
 	<div class="space-y-12">
 		<section class="prose dark:prose-invert lg:prose-lg animate-fade-in">
-			<h1>Hey, I'm David 👋</h1>
+			<h1>Hey, I'm David <span class="wave inline-block hover:cursor-default">👋</span></h1>
 			<p class="lead">
 				I'm a health and safety professional turned self-taught software maker on the side. I'm passionate about solving problems for people and with people.
 				I believe in the power of collaboration and love to learn from others.
@@ -20,7 +20,13 @@ import BlueskyPost from '../components/BlueskyPost.astro';
 			<h2 class="text-2xl font-bold">Current Projects</h2>
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 				<a href="https://jobsinenglish.dk" target="_blank" rel="noopener noreferrer">
-					<div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
+					<div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg group relative transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+						<div class="absolute top-4 right-4 text-gray-400 dark:text-gray-500 transition-transform duration-300 group-hover:translate-x-1">
+							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<line x1="7" y1="17" x2="17" y2="7"></line>
+								<polyline points="7 7 17 7 17 17"></polyline>
+							</svg>
+						</div>
 						<h3 class="text-xl font-semibold mb-2">jobsinenglish.dk</h3>
 						<p class="text-gray-600 dark:text-gray-300">
 							A job board dedicated to English speaking jobs in Denmark. Helping foreigners find their dream jobs in Denmark.
@@ -28,7 +34,13 @@ import BlueskyPost from '../components/BlueskyPost.astro';
 					</div>
 				</a>
 				<a href="https://denmarkforexpats.com" target="_blank" rel="noopener noreferrer">
-					<div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
+					<div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg group relative transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+						<div class="absolute top-4 right-4 text-gray-400 dark:text-gray-500 transition-transform duration-300 group-hover:translate-x-1">
+							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<line x1="7" y1="17" x2="17" y2="7"></line>
+								<polyline points="7 7 17 7 17 17"></polyline>
+							</svg>
+						</div>
 						<h3 class="text-xl font-semibold mb-2">denmarkforexpats.com</h3>
 						<p class="text-gray-600 dark:text-gray-300">
 							A directory of businesses and services for foreigners in Denmark. Helping expats find their way around in Denmark.
@@ -60,6 +72,27 @@ import BlueskyPost from '../components/BlueskyPost.astro';
 		to {
 			opacity: 1;
 		}
+	}
+
+	@keyframes wave {
+		0% { transform: rotate(0deg); }
+		10% { transform: rotate(14deg); }
+		20% { transform: rotate(-8deg); }
+		30% { transform: rotate(14deg); }
+		40% { transform: rotate(-4deg); }
+		50% { transform: rotate(10deg); }
+		60% { transform: rotate(0deg); }
+		100% { transform: rotate(0deg); }
+	}
+
+	.wave {
+		animation: wave 2.5s ease-in-out;
+		transform-origin: 70% 70%;
+		transition: transform 0.3s ease;
+	}
+
+	.wave:hover {
+		transform: rotate(15deg);
 	}
 
 	section {

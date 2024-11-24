@@ -1,6 +1,4 @@
 ---
-// Bluesky component - fetches and displays the latest post
-// Trigger new deployment
 import { Agent, CredentialSession } from '@atproto/api'
 import type { OutputSchema as AuthorFeedResponse } from '@atproto/api/dist/client/types/app/bsky/feed/getAuthorFeed'
 
@@ -22,12 +20,12 @@ if (!username || !password) {
     try {
         const session = new CredentialSession(new URL('https://bsky.social'), undefined, undefined)
         const agent = new Agent(session)
-        
-        await session.login({ 
-            identifier: username, 
-            password: password 
+
+        await session.login({
+            identifier: username,
+            password: password
         })
-        
+
         const response = await agent.getAuthorFeed({ actor: username, limit: 1 })
         latestPost = response.data.feed[0]?.post as (AuthorFeedResponse['feed'][number]['post'] & { record: PostRecord }) ?? null
     } catch (e) {
@@ -52,14 +50,11 @@ const formatDate = (date: string) => {
         {latestPost && (
             <article class="flex flex-col gap-2">
                 <div class="flex items-start gap-3">
-                    <a href={`https://bsky.app/profile/${latestPost.author.handle}`} target="_blank" rel="noopener noreferrer"
-                       class="flex-shrink-0">
-                        <img src={latestPost.author.avatar}
-                             alt={`${latestPost.author.displayName}'s avatar`}
-                             class="w-11 h-11 rounded-full object-cover"
-                             onerror="this.src='https://bsky.social/static/default-avatar.png'"
-                        />
-                    </a>
+                    <img src={latestPost.author.avatar}
+                         alt={`${latestPost.author.displayName}'s avatar`}
+                         class="w-11 h-11 rounded-full object-cover flex-shrink-0 my-0"
+                         onerror="this.src='https://bsky.social/static/default-avatar.png'"
+                    />
                     <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-1 mb-0.5">
                             <a href={`https://bsky.app/profile/${latestPost.author.handle}`}
