@@ -8,15 +8,12 @@ interface PostRecord {
     [k: string]: unknown
 }
 
+// Get initial post data at build time
+let initialPost = null
 const username = import.meta.env.BLUESKY_USERNAME
 const password = import.meta.env.BLUESKY_APP_PASSWORD
 
-let latestPost: (AuthorFeedResponse['feed'][number]['post'] & { record: PostRecord }) | null = null
-let error: string | null = null
-
-if (!username || !password) {
-    error = 'Bluesky credentials not configured'
-} else {
+if (username && password) {
     try {
         const session = new CredentialSession(new URL('https://bsky.social'), undefined, undefined)
         const agent = new Agent(session)
@@ -27,69 +24,135 @@ if (!username || !password) {
         })
 
         const response = await agent.getAuthorFeed({ actor: username, limit: 1 })
-        latestPost = response.data.feed[0]?.post as (AuthorFeedResponse['feed'][number]['post'] & { record: PostRecord }) ?? null
-    } catch (e) {
-        console.error('Bluesky error:', e)
-        error = e instanceof Error ? e.message : 'Unknown error'
+        initialPost = response.data.feed[0]?.post ?? null
+    } catch (error) {
+        console.error('Error fetching initial post:', error)
     }
-}
-
-const formatDate = (date: string) => {
-    const d = new Date(date)
-    return d.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: d.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined
-    })
 }
 ---
 
-<div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+<div class="rounded-lg border dark:border-gray-800 overflow-hidden" id="bluesky-post">
     <div class="p-4">
-        {error && <p class="text-red-500">Unable to fetch Bluesky post: {error}</p>}
-        {latestPost && (
-            <article class="flex flex-col gap-2">
-                <div class="flex items-start gap-3">
-                    <img src={latestPost.author.avatar}
-                         alt={`${latestPost.author.displayName}'s avatar`}
-                         class="w-11 h-11 rounded-full object-cover flex-shrink-0 my-0"
-                         onerror="this.src='https://bsky.social/static/default-avatar.png'"
-                    />
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-1 mb-0.5">
-                            <a href={`https://bsky.app/profile/${latestPost.author.handle}`}
-                               target="_blank"
-                               rel="noopener noreferrer"
-                               class="font-medium text-gray-900 dark:text-white hover:underline truncate">
-                                {latestPost.author.displayName}
-                            </a>
-                            <span class="text-gray-500 dark:text-gray-400 text-sm truncate">
-                                @{latestPost.author.handle}
-                            </span>
-                        </div>
-                        <p class="text-gray-900 dark:text-white whitespace-pre-wrap break-words">
-                            {latestPost.record.text}
-                        </p>
-                        <div class="mt-2 flex items-center gap-2">
-                            <span class="text-sm text-gray-500 dark:text-gray-400">
-                                {formatDate(latestPost.indexedAt)}
-                            </span>
-                            <span class="text-gray-500 dark:text-gray-400">·</span>
-                            <a href={`https://bsky.app/profile/${latestPost.author.handle}/post/${latestPost.uri.split('/').pop()}`}
-                               target="_blank"
-                               rel="noopener noreferrer"
-                               class="text-sm text-blue-500 hover:underline">
-                                View on Bluesky
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        )}
-        {!latestPost && !error && (
+        {!initialPost && (
             <div class="flex items-center justify-center py-4">
                 <div class="animate-spin rounded-full h-6 w-6 border-2 border-blue-500 border-t-transparent"></div>
             </div>
         )}
+        {initialPost && (
+            <div class="flex items-start gap-3">
+                <img src={initialPost.author.avatar}
+                     alt={`${initialPost.author.displayName}'s avatar`}
+                     class="w-11 h-11 rounded-full object-cover flex-shrink-0 my-0"
+                     onerror="this.src='https://bsky.social/static/default-avatar.png'"
+                />
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-1 mb-0.5">
+                        <a href={`https://bsky.app/profile/${initialPost.author.handle}`}
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="font-medium text-gray-900 dark:text-white hover:underline truncate">
+                            {initialPost.author.displayName}
+                        </a>
+                        <span class="text-gray-500 dark:text-gray-400 text-sm truncate">
+                            @{initialPost.author.handle}
+                        </span>
+                    </div>
+                    <p class="text-gray-900 dark:text-white whitespace-pre-wrap break-words">
+                        {initialPost.record.text}
+                    </p>
+                    <div class="mt-2 flex items-center gap-2">
+                        <span class="text-sm text-gray-500 dark:text-gray-400">
+                            {new Date(initialPost.indexedAt).toLocaleDateString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                hour: 'numeric',
+                                minute: '2-digit'
+                            })}
+                        </span>
+                        <a href={`https://bsky.app/profile/${initialPost.author.handle}/post/${initialPost.uri.split('/').pop()}`}
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="text-sm text-blue-500 hover:underline">
+                            View on Bluesky
+                        </a>
+                    </div>
+                </div>
+            </div>
+        )}
     </div>
 </div>
+
+<script>
+    let lastUpdate = 0;
+    const updateInterval = 5 * 60 * 1000; // 5 minutes
+
+    async function fetchLatestPost() {
+        const now = Date.now();
+        if (now - lastUpdate < updateInterval) return;
+
+        try {
+            const response = await fetch('/api/latest-post.json');
+            if (!response.ok) throw new Error('Network response was not ok');
+
+            const data = await response.json();
+            if (data.error) {
+                console.error('Error fetching post:', data.error);
+                return;
+            }
+
+            const post = data.post;
+            if (!post) return;
+
+            // Update avatar
+            const avatar = document.querySelector('#bluesky-post img');
+            if (avatar) {
+                avatar.src = post.author.avatar;
+                avatar.alt = `${post.author.displayName}'s avatar`;
+            }
+
+            // Update display name and handle
+            const nameLink = document.querySelector('#bluesky-post .font-medium');
+            if (nameLink) {
+                nameLink.textContent = post.author.displayName;
+                nameLink.href = `https://bsky.app/profile/${post.author.handle}`;
+            }
+
+            const handle = document.querySelector('#bluesky-post .text-gray-500');
+            if (handle) {
+                handle.textContent = `@${post.author.handle}`;
+            }
+
+            // Update post text
+            const text = document.querySelector('#bluesky-post p');
+            if (text) {
+                text.textContent = post.record.text;
+            }
+
+            // Update date and link
+            const date = document.querySelector('#bluesky-post .text-sm.text-gray-500');
+            if (date) {
+                date.textContent = new Date(post.indexedAt).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: '2-digit'
+                });
+            }
+
+            const link = document.querySelector('#bluesky-post .text-blue-500');
+            if (link) {
+                link.href = `https://bsky.app/profile/${post.author.handle}/post/${post.uri.split('/').pop()}`;
+            }
+
+            lastUpdate = now;
+        } catch (error) {
+            console.error('Error fetching latest post:', error);
+        }
+    }
+
+    // Fetch immediately when the component loads
+    fetchLatestPost();
+
+    // Then fetch periodically
+    setInterval(fetchLatestPost, updateInterval);
+</script>
