@@ -1,14 +1,22 @@
 import { Agent, CredentialSession } from '@atproto/api'
 import type { APIRoute } from 'astro'
 
-export const GET: APIRoute = async () => {
+export const prerender = false
+
+export const GET: APIRoute = async ({ request }) => {
   const username = import.meta.env.BLUESKY_USERNAME
   const password = import.meta.env.BLUESKY_APP_PASSWORD
 
   if (!username || !password) {
     return new Response(
       JSON.stringify({ error: 'Bluesky credentials not configured' }),
-      { status: 500 }
+      { 
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache, no-store, must-revalidate'
+        }
+      }
     )
   }
 
@@ -26,13 +34,25 @@ export const GET: APIRoute = async () => {
 
     return new Response(
       JSON.stringify({ post: latestPost }),
-      { status: 200 }
+      { 
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache, no-store, must-revalidate'
+        }
+      }
     )
   } catch (e) {
     const error = e instanceof Error ? e.message : 'Unknown error'
     return new Response(
       JSON.stringify({ error }),
-      { status: 500 }
+      { 
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache, no-store, must-revalidate'
+        }
+      }
     )
   }
 }
