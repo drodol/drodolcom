@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import BlueskyPost from '../components/BlueskyPost.astro';
 ---
 
 <Layout
@@ -40,6 +41,7 @@ import Layout from '../layouts/Layout.astro';
 		<section class="space-y-4 [animation-delay:400ms] animate-fade-in-up opacity-0">
 			<h2 class="text-2xl font-bold">Latest Updates</h2>
 			<div class="prose dark:prose-invert">
+				<BlueskyPost />
 				<p>
 					I write regularly about life, code, AI, and experiences on my <a href="/blog" class="text-blue-600 dark:text-blue-400 hover:underline">blog</a>.
 					You can also check out my <a href="/now" class="text-blue-600 dark:text-blue-400 hover:underline">/now page</a> to see what I'm currently focused on,

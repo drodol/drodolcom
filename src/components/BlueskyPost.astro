@@ -1,0 +1,89 @@
+---
+import { Agent, CredentialSession } from '@atproto/api'
+import type { OutputSchema as AuthorFeedResponse } from '@atproto/api/dist/client/types/app/bsky/feed/getAuthorFeed'
+
+interface PostRecord {
+    text: string
+    createdAt: string
+    [k: string]: unknown
+}
+
+const session = new CredentialSession(new URL('https://bsky.social'), undefined, undefined)
+const agent = new Agent(session)
+
+const username = import.meta.env.BLUESKY_USERNAME
+const password = import.meta.env.BLUESKY_APP_PASSWORD
+
+let latestPost: (AuthorFeedResponse['feed'][number]['post'] & { record: PostRecord }) | null = null
+let error: string | null = null
+
+try {
+    await session.login({ identifier: username, password })
+    const response = await agent.getAuthorFeed({ actor: username, limit: 1 })
+    latestPost = response.data.feed[0]?.post as (AuthorFeedResponse['feed'][number]['post'] & { record: PostRecord }) ?? null
+} catch (e) {
+    error = e instanceof Error ? e.message : 'Unknown error'
+}
+
+const formatDate = (date: string) => {
+    const d = new Date(date)
+    return d.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: d.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined
+    })
+}
+---
+
+<div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+    <div class="p-4">
+        {error && <p class="text-red-500">Unable to fetch Bluesky post: {error}</p>}
+        {latestPost && (
+            <article class="flex flex-col gap-2">
+                <div class="flex items-start gap-3">
+                    <a href={`https://bsky.app/profile/${latestPost.author.handle}`} target="_blank" rel="noopener noreferrer"
+                       class="flex-shrink-0">
+                        <img src={latestPost.author.avatar}
+                             alt={`${latestPost.author.displayName}'s avatar`}
+                             class="w-11 h-11 rounded-full object-cover"
+                             onerror="this.src='https://bsky.social/static/default-avatar.png'"
+                        />
+                    </a>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-1 mb-0.5">
+                            <a href={`https://bsky.app/profile/${latestPost.author.handle}`}
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="font-medium text-gray-900 dark:text-white hover:underline truncate">
+                                {latestPost.author.displayName}
+                            </a>
+                            <span class="text-gray-500 dark:text-gray-400 text-sm truncate">
+                                @{latestPost.author.handle}
+                            </span>
+                        </div>
+                        <p class="text-gray-900 dark:text-white whitespace-pre-wrap break-words">
+                            {latestPost.record.text}
+                        </p>
+                        <div class="mt-2 flex items-center gap-2">
+                            <span class="text-sm text-gray-500 dark:text-gray-400">
+                                {formatDate(latestPost.indexedAt)}
+                            </span>
+                            <span class="text-gray-500 dark:text-gray-400">·</span>
+                            <a href={`https://bsky.app/profile/${latestPost.author.handle}/post/${latestPost.uri.split('/').pop()}`}
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="text-sm text-blue-500 hover:underline">
+                                View on Bluesky
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        )}
+        {!latestPost && !error && (
+            <div class="flex items-center justify-center py-4">
+                <div class="animate-spin rounded-full h-6 w-6 border-2 border-blue-500 border-t-transparent"></div>
+            </div>
+        )}
+    </div>
+</div>
