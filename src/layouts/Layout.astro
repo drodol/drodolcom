@@ -5,6 +5,7 @@ interface Props {
 }
 
 const { title, description = "David Rodriguez's personal website" } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <!DOCTYPE html>
@@ -13,7 +14,7 @@ const { title, description = "David Rodriguez's personal website" } = Astro.prop
 		<meta charset="UTF-8" />
 		<meta name="description" content={description}>
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<script>
@@ -30,15 +31,15 @@ const { title, description = "David Rodriguez's personal website" } = Astro.prop
 			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div class="flex justify-between items-center py-4" x-data="{ isOpen: false }">
 					<!-- Logo -->
-					<a href="/" class="text-xl font-bold">@drodol</a>
+					<a href={`${base}/`} class="text-xl font-bold">@drodol</a>
 
 					<!-- Desktop Navigation -->
 					<nav class="hidden md:flex items-center space-x-8">
-						<a href="/" class="hover:text-primary transition-colors">Home</a>
-						<a href="/about" class="hover:text-primary transition-colors">About</a>
-						<a href="/now" class="hover:text-primary transition-colors">/Now</a>
-						<a href="/uses" class="hover:text-primary transition-colors">Uses</a>
-						<a href="/contact" class="hover:text-primary transition-colors">Contact</a>
+						<a href={`${base}/`} class="hover:text-primary transition-colors">Home</a>
+						<a href={`${base}/about`} class="hover:text-primary transition-colors">About</a>
+						<a href={`${base}/now`} class="hover:text-primary transition-colors">/Now</a>
+						<a href={`${base}/uses`} class="hover:text-primary transition-colors">Uses</a>
+						<a href={`${base}/contact`} class="hover:text-primary transition-colors">Contact</a>
 						<button
 							@click="$store.darkMode.toggle()"
 							class="inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -163,11 +164,11 @@ const { title, description = "David Rodriguez's personal website" } = Astro.prop
 						class="absolute top-full left-0 right-0 bg-white dark:bg-gray-900 shadow-lg md:hidden"
 					>
 						<nav class="flex flex-col space-y-4 p-4">
-							<a href="/" class="hover:text-primary transition-colors">Home</a>
-							<a href="/about" class="hover:text-primary transition-colors">About</a>
-							<a href="/now" class="hover:text-primary transition-colors">/Now</a>
-							<a href="/uses" class="hover:text-primary transition-colors">Uses</a>
-							<a href="/contact" class="hover:text-primary transition-colors">Contact</a>
+							<a href={`${base}/`} class="hover:text-primary transition-colors">Home</a>
+							<a href={`${base}/about`} class="hover:text-primary transition-colors">About</a>
+							<a href={`${base}/now`} class="hover:text-primary transition-colors">/Now</a>
+							<a href={`${base}/uses`} class="hover:text-primary transition-colors">Uses</a>
+							<a href={`${base}/contact`} class="hover:text-primary transition-colors">Contact</a>
 						</nav>
 					</div>
 				</div>
