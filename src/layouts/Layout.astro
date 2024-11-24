@@ -5,6 +5,7 @@ interface Props {
 }
 
 const { title, description = "David Rodriguez's personal website" } = Astro.props;
+const pageTitle = title === 'Home' ? '@drodol' : `${title} | @drodol`;
 ---
 
 <!DOCTYPE html>
@@ -13,9 +14,16 @@ const { title, description = "David Rodriguez's personal website" } = Astro.prop
 		<meta charset="UTF-8" />
 		<meta name="description" content={description}>
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		
+		<!-- Favicon -->
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/site.webmanifest">
+		<link rel="shortcut icon" href="/favicon.ico">
+		
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+		<title>{pageTitle}</title>
 		<script>
 			// On page load or when changing themes, best to add inline in `head` to avoid FOUC
 			if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
