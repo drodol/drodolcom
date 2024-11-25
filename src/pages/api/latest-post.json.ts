@@ -50,16 +50,41 @@ export const GET: APIRoute = async ({ request }) => {
       password: password
     })
 
+    // First get profile to verify we're authenticated
+    console.log('[API] Fetching profile')
+    const profileResponse = await agent.getProfile({ actor: username })
+    console.log('[API] Profile response:', {
+      handle: profileResponse.data.handle,
+      postsCount: profileResponse.data.postsCount,
+      followersCount: profileResponse.data.followersCount,
+      lastPostedAt: profileResponse.data.associated?.post?.indexedAt
+    })
+
+    // Get feed with cursor to ensure latest posts
     console.log('[API] Fetching author feed')
     const feedResponse = await agent.getAuthorFeed({ 
-      actor: username, 
+      actor: username,
       limit: 1
     })
+
+    // Double check with a direct post fetch
+    if (profileResponse.data.associated?.post?.uri) {
+      console.log('[API] Fetching latest post directly')
+      const directPost = await agent.getPostThread({
+        uri: profileResponse.data.associated.post.uri
+      })
+      console.log('[API] Direct post:', {
+        postUri: directPost.data.thread.post.uri,
+        createdAt: directPost.data.thread.post.record.createdAt,
+        text: directPost.data.thread.post.record.text
+      })
+    }
 
     console.log('[API] Raw feed response:', {
       feedLength: feedResponse.data.feed.length,
       cursor: feedResponse.data.cursor,
       posts: feedResponse.data.feed.map(item => ({
+        uri: item.post.uri,
         text: item.post.record.text,
         createdAt: item.post.record.createdAt,
         indexedAt: item.post.indexedAt
@@ -67,15 +92,6 @@ export const GET: APIRoute = async ({ request }) => {
     })
 
     const latestPost = feedResponse.data.feed[0]?.post ?? null
-
-    // Try fetching the post directly as well
-    console.log('[API] Attempting direct post fetch')
-    const profileResponse = await agent.getProfile({ actor: username })
-    console.log('[API] Profile response:', {
-      handle: profileResponse.data.handle,
-      postsCount: profileResponse.data.postsCount,
-      followersCount: profileResponse.data.followersCount
-    })
 
     console.log('[API] Post details:', {
       text: latestPost?.record?.text,
