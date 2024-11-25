@@ -4,19 +4,19 @@ import { AtpAgent } from '@atproto/api';
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({ request }) => {
+export const GET: APIRoute = async ({ request, clientAddress, locals }) => {
   console.log('API Request received at:', new Date().toISOString());
-  console.log('Request URL:', request.url);
-  console.log('Request headers:', Object.fromEntries([...request.headers.entries()]));
-
+  
   try {
-    const username = import.meta.env.BLUESKY_USERNAME;
-    const password = import.meta.env.BLUESKY_APP_PASSWORD;
+    // Try both runtime and import.meta.env
+    const env = (locals?.runtime?.env as Record<string, string>) || {};
+    const username = env.BLUESKY_USERNAME || import.meta.env.BLUESKY_USERNAME;
+    const password = env.BLUESKY_APP_PASSWORD || import.meta.env.BLUESKY_APP_PASSWORD;
 
-    console.log('Debug env:', {
+    console.log('Environment check:', {
       hasUsername: !!username,
       hasPassword: !!password,
-      envKeys: Object.keys(import.meta.env),
+      usingRuntime: !!env.BLUESKY_USERNAME,
     });
 
     if (!username || !password) {
