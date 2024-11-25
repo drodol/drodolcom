@@ -13,6 +13,12 @@ export const GET: APIRoute = async ({ request }) => {
     const username = import.meta.env.BLUESKY_USERNAME;
     const password = import.meta.env.BLUESKY_APP_PASSWORD;
 
+    console.log('Debug env:', {
+      hasUsername: !!username,
+      hasPassword: !!password,
+      envKeys: Object.keys(import.meta.env),
+    });
+
     if (!username || !password) {
       console.error('Missing Bluesky credentials:', {
         hasUsername: !!username,
