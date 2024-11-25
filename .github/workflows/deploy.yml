@@ -29,8 +29,12 @@ jobs:
         uses: withastro/action@v1
         with:
           node-version: 18
+          path: .
+          package-manager: npm
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
+        with:
+          path: dist/
 
   deploy:
     needs: build
