@@ -17,97 +17,87 @@ let initialPost = null
 
 <div class="rounded-lg border dark:border-gray-800 overflow-hidden" id="bluesky-post">
     <div class="p-4" id="bluesky-post-content">
-        <div class="flex items-center justify-center py-4" id="loading-spinner">
+        <div class="flex items-center justify-center py-4 hidden" id="loading">
             <div class="animate-spin rounded-full h-6 w-6 border-2 border-blue-500 border-t-transparent"></div>
+        </div>
+        <div class="flex items-center justify-center py-4 hidden" id="error">
+            <span id="error-message"></span>
+        </div>
+        <div class="hidden" id="post">
+            <div class="flex items-start gap-3">
+                <img src="" alt="" class="w-11 h-11 rounded-full object-cover flex-shrink-0 my-0" onerror="this.src='https://bsky.social/static/default-avatar.png'" id="post-avatar"/>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-1 mb-0.5">
+                        <a href="" target="_blank" rel="noopener noreferrer" class="font-medium text-gray-900 dark:text-white hover:underline truncate" id="post-author"></a>
+                        <span class="text-gray-500 dark:text-gray-400 text-sm truncate" id="post-handle"></span>
+                    </div>
+                    <p class="text-gray-900 dark:text-white whitespace-pre-wrap break-words my-0" id="post-text"></p>
+                    <div class="mt-2 flex items-center gap-2">
+                        <span class="text-sm text-gray-500 dark:text-gray-400" id="post-time"></span>
+                        <a href="" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-500 hover:underline" id="post-link">View on Bluesky</a>
+                    </div>
+                </div>
+            </div>
+            <div id="debug-info"></div>
         </div>
     </div>
 </div>
 
 <script>
-    let lastUpdate = 0;
-    const updateInterval = 5 * 60 * 1000; // 5 minutes
-    const postContainer = document.getElementById('bluesky-post-content');
-    const loadingSpinner = document.getElementById('loading-spinner');
+    let lastPostId = null;
+    let lastFetchTime = null;
 
     function showLoading() {
-        console.log('[Bluesky] Showing loading spinner');
-        if (loadingSpinner) loadingSpinner.style.display = 'flex';
+        document.getElementById('loading')?.classList.remove('hidden');
+        document.getElementById('error')?.classList.add('hidden');
+        document.getElementById('post')?.classList.add('hidden');
     }
 
-    function hideLoading() {
-        console.log('[Bluesky] Hiding loading spinner');
-        if (loadingSpinner) loadingSpinner.style.display = 'none';
+    function showError(message) {
+        const errorElement = document.getElementById('error');
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.classList.remove('hidden');
+        }
+        document.getElementById('loading')?.classList.add('hidden');
+        document.getElementById('post')?.classList.add('hidden');
     }
 
-    function createPostHTML(post) {
-        console.log('[Bluesky] Creating post HTML');
-        return `
-            <div class="flex items-start gap-3">
-                <img src="${post.author.avatar}"
-                     alt="${post.author.displayName}'s avatar"
-                     class="w-11 h-11 rounded-full object-cover flex-shrink-0 my-0"
-                     onerror="this.src='https://bsky.social/static/default-avatar.png'"
-                />
-                <div class="flex-1 min-w-0">
-                    <div class="flex items-center gap-1 mb-0.5">
-                        <a href="https://bsky.app/profile/${post.author.handle}"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="font-medium text-gray-900 dark:text-white hover:underline truncate">
-                            ${post.author.displayName}
-                        </a>
-                        <span class="text-gray-500 dark:text-gray-400 text-sm truncate">
-                            @${post.author.handle}
-                        </span>
-                    </div>
-                    <p class="text-gray-900 dark:text-white whitespace-pre-wrap break-words my-0">
-                        ${post.record.text}
-                    </p>
-                    <div class="mt-2 flex items-center gap-2">
-                        <span class="text-sm text-gray-500 dark:text-gray-400">
-                            ${new Date(post.indexedAt).toLocaleDateString('en-US', {
-                                month: 'short',
-                                day: 'numeric',
-                                hour: 'numeric',
-                                minute: '2-digit'
-                            })}
-                        </span>
-                        <a href="https://bsky.app/profile/${post.author.handle}/post/${post.uri.split('/').pop()}"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="text-sm text-blue-500 hover:underline">
-                            View on Bluesky
-                        </a>
-                    </div>
-                </div>
-            </div>
-        `;
+    function showPost(post) {
+        document.getElementById('loading')?.classList.add('hidden');
+        document.getElementById('error')?.classList.add('hidden');
+        document.getElementById('post')?.classList.remove('hidden');
+
+        // Update post content
+        document.getElementById('post-text')!.textContent = post.record.text;
+        document.getElementById('post-time')!.textContent = new Date(post.record.createdAt).toLocaleString();
+        document.getElementById('post-avatar')!.src = post.author.avatar;
+        document.getElementById('post-author')!.textContent = post.author.displayName;
+        document.getElementById('post-author')!.href = `https://bsky.app/profile/${post.author.handle}`;
+        document.getElementById('post-handle')!.textContent = `@${post.author.handle}`;
+        document.getElementById('post-link')!.href = `https://bsky.app/profile/${post.author.handle}/post/${post.uri.split('/').pop()}`;
+        
+        // Update debug info
+        const debugInfo = document.getElementById('debug-info')!;
+        debugInfo.textContent = `Last fetch: ${new Date().toISOString()}`;
     }
 
     async function fetchLatestPost() {
-        const now = Date.now();
-        console.log('[Bluesky] Checking if update needed:', { 
-            now, 
-            lastUpdate, 
-            timeSinceLastUpdate: now - lastUpdate,
-            updateInterval 
+        console.log('[Bluesky] Starting fetch');
+        const fetchStartTime = new Date();
+        showLoading();
+        
+        const apiUrl = window.location.hostname === 'localhost' 
+            ? '/api/latest-post.json'
+            : `https://drodol.com/api/latest-post.json?_=${Date.now()}`;
+        
+        console.log('[Bluesky] Fetching from:', apiUrl, {
+            lastPostId,
+            lastFetchTime: lastFetchTime?.toISOString(),
+            currentTime: fetchStartTime.toISOString()
         });
-
-        if (now - lastUpdate < updateInterval) {
-            console.log('[Bluesky] Skipping update - too soon');
-            return;
-        }
-
+        
         try {
-            console.log('[Bluesky] Starting fetch');
-            showLoading();
-            
-            const apiUrl = window.location.hostname === 'localhost' 
-                ? '/api/latest-post.json'
-                : `https://drodol.com/api/latest-post.json?_=${Date.now()}`;
-            
-            console.log('[Bluesky] Fetching from:', apiUrl);
-            
             const response = await fetch(apiUrl, {
                 headers: {
                     'Cache-Control': 'no-cache, no-store, must-revalidate, proxy-revalidate, max-age=0',
@@ -122,42 +112,43 @@ let initialPost = null
             }
 
             const data = await response.json();
-            console.log('[Bluesky] Response received:', { 
-                hasError: !!data.error, 
-                hasPost: !!data.post,
-                timestamp: data.timestamp,
-                postText: data.post?.record?.text,
-                postCreatedAt: data.post?.record?.createdAt,
-                postIndexedAt: data.post?.indexedAt
+            console.log('[Bluesky] Response:', {
+                serverTime: data.serverTime,
+                clientTime: new Date().toISOString(),
+                post: {
+                    id: data.post?.uri,
+                    text: data.post?.record?.text,
+                    createdAt: data.post?.record?.createdAt
+                },
+                debug: data.debug
             });
+
+            if (!data.post) {
+                throw new Error('No post found');
+            }
+
+            const currentPostId = data.post.uri;
+            if (currentPostId !== lastPostId) {
+                console.log('[Bluesky] New post detected', {
+                    previous: lastPostId,
+                    current: currentPostId
+                });
+                showPost(data.post);
+                lastPostId = currentPostId;
+            } else {
+                console.log('[Bluesky] No new post');
+            }
             
-            if (data.error) {
-                console.error('[Bluesky] API error:', data.error);
-                return;
-            }
-
-            const post = data.post;
-            if (!post || !postContainer) {
-                console.log('[Bluesky] No post data or container');
-                return;
-            }
-
-            console.log('[Bluesky] Updating post content');
-            postContainer.innerHTML = createPostHTML(post);
-            lastUpdate = now;
-            console.log('[Bluesky] Update complete');
+            lastFetchTime = fetchStartTime;
         } catch (error) {
             console.error('[Bluesky] Error:', error);
-        } finally {
-            hideLoading();
+            showError(error instanceof Error ? error.message : 'Failed to fetch latest post');
         }
     }
 
-    // Fetch immediately when the component loads
-    console.log('[Bluesky] Component mounted, starting initial fetch');
+    // Initial fetch
     fetchLatestPost();
 
-    // Then fetch periodically
-    console.log('[Bluesky] Setting up periodic updates');
-    setInterval(fetchLatestPost, updateInterval);
+    // Refresh every 5 minutes
+    setInterval(fetchLatestPost, 5 * 60 * 1000);
 </script>

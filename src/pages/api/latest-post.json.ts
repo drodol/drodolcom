@@ -6,19 +6,24 @@ export const prerender = false
 
 // Add cache control header
 export const GET: APIRoute = async ({ request }) => {
-  console.log('[API] Latest post request received:', new Date().toISOString())
+  const requestTime = new Date()
+  console.log('[API] Latest post request received:', requestTime.toISOString())
   
   const username = import.meta.env.BLUESKY_USERNAME
   const password = import.meta.env.BLUESKY_APP_PASSWORD
 
-  console.log('[API] Checking credentials:', { hasUsername: !!username, hasPassword: !!password })
+  console.log('[API] Checking credentials:', { 
+    hasUsername: !!username, 
+    hasPassword: !!password,
+    username: username // Log actual username to verify it's correct
+  })
 
   if (!username || !password) {
     console.error('[API] Missing credentials')
     return new Response(
       JSON.stringify({ 
         error: 'Bluesky credentials not configured',
-        serverTime: new Date().toISOString()
+        serverTime: requestTime.toISOString()
       }),
       { 
         status: 500,
@@ -46,20 +51,48 @@ export const GET: APIRoute = async ({ request }) => {
     })
 
     console.log('[API] Fetching author feed')
-    const response = await agent.getAuthorFeed({ actor: username, limit: 1 })
-    const latestPost = response.data.feed[0]?.post ?? null
+    const feedResponse = await agent.getAuthorFeed({ 
+      actor: username, 
+      limit: 1
+    })
+
+    console.log('[API] Raw feed response:', {
+      feedLength: feedResponse.data.feed.length,
+      cursor: feedResponse.data.cursor,
+      posts: feedResponse.data.feed.map(item => ({
+        text: item.post.record.text,
+        createdAt: item.post.record.createdAt,
+        indexedAt: item.post.indexedAt
+      }))
+    })
+
+    const latestPost = feedResponse.data.feed[0]?.post ?? null
+
+    // Try fetching the post directly as well
+    console.log('[API] Attempting direct post fetch')
+    const profileResponse = await agent.getProfile({ actor: username })
+    console.log('[API] Profile response:', {
+      handle: profileResponse.data.handle,
+      postsCount: profileResponse.data.postsCount,
+      followersCount: profileResponse.data.followersCount
+    })
 
     console.log('[API] Post details:', {
       text: latestPost?.record?.text,
       createdAt: latestPost?.record?.createdAt,
       indexedAt: latestPost?.indexedAt,
-      serverTime: new Date().toISOString()
+      serverTime: requestTime.toISOString()
     })
 
     const responseBody = { 
       post: latestPost, 
       timestamp: Date.now(),
-      serverTime: new Date().toISOString()
+      serverTime: requestTime.toISOString(),
+      debug: {
+        requestTime: requestTime.toISOString(),
+        feedLength: feedResponse.data.feed.length,
+        postsCount: profileResponse.data.postsCount
+      }
     }
     console.log('[API] Sending response:', responseBody)
 
@@ -84,7 +117,11 @@ export const GET: APIRoute = async ({ request }) => {
       JSON.stringify({ 
         error, 
         timestamp: Date.now(),
-        serverTime: new Date().toISOString()
+        serverTime: requestTime.toISOString(),
+        debug: {
+          requestTime: requestTime.toISOString(),
+          error: error
+        }
       }),
       { 
         status: 500,
