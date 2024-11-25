@@ -4,6 +4,10 @@ import { AtpAgent } from '@atproto/api';
 export const prerender = false;
 
 export const GET: APIRoute = async ({ request }) => {
+  console.log('API Request received at:', new Date().toISOString());
+  console.log('Request URL:', request.url);
+  console.log('Request headers:', Object.fromEntries([...request.headers.entries()]));
+
   try {
     const username = import.meta.env.BLUESKY_USERNAME;
     const password = import.meta.env.BLUESKY_APP_PASSWORD;
