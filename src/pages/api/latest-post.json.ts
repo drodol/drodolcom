@@ -122,7 +122,9 @@ export const GET: APIRoute = async ({ request }) => {
           'Pragma': 'no-cache',
           'Expires': '0',
           'Surrogate-Control': 'no-store',
-          'Access-Control-Allow-Origin': '*'
+          'Access-Control-Allow-Origin': '*',
+          'X-Build-Time': process.env.BUILD_TIME || new Date().toISOString(),
+          'X-Request-Time': requestTime.toISOString()
         }
       }
     )
@@ -147,7 +149,9 @@ export const GET: APIRoute = async ({ request }) => {
           'Pragma': 'no-cache',
           'Expires': '0',
           'Surrogate-Control': 'no-store',
-          'Access-Control-Allow-Origin': '*'
+          'Access-Control-Allow-Origin': '*',
+          'X-Build-Time': process.env.BUILD_TIME || new Date().toISOString(),
+          'X-Request-Time': requestTime.toISOString()
         }
       }
     )
