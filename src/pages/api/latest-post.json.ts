@@ -1,3 +1,4 @@
+// Trigger rebuild with environment variables
 import type { APIRoute } from 'astro';
 import { AtpAgent } from '@atproto/api';
 
