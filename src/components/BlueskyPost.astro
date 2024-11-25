@@ -121,7 +121,14 @@ let initialPost = null
             }
 
             const data = await response.json();
-            console.log('[Bluesky] Response received:', { hasError: !!data.error, hasPost: !!data.post });
+            console.log('[Bluesky] Response received:', { 
+                hasError: !!data.error, 
+                hasPost: !!data.post,
+                timestamp: data.timestamp,
+                postText: data.post?.record?.text,
+                postCreatedAt: data.post?.record?.createdAt,
+                postIndexedAt: data.post?.indexedAt
+            });
             
             if (data.error) {
                 console.error('[Bluesky] API error:', data.error);

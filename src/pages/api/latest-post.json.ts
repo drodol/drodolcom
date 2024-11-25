@@ -41,10 +41,17 @@ export const GET: APIRoute = async ({ request }) => {
     const response = await agent.getAuthorFeed({ actor: username, limit: 1 })
     const latestPost = response.data.feed[0]?.post ?? null
 
-    console.log('[API] Post fetched successfully:', { hasPost: !!latestPost })
+    console.log('[API] Post details:', {
+      text: latestPost?.record?.text,
+      createdAt: latestPost?.record?.createdAt,
+      indexedAt: latestPost?.indexedAt
+    })
+
+    const responseBody = { post: latestPost, timestamp: Date.now() }
+    console.log('[API] Sending response:', responseBody)
 
     return new Response(
-      JSON.stringify({ post: latestPost }),
+      JSON.stringify(responseBody),
       { 
         status: 200,
         headers: {
@@ -58,7 +65,7 @@ export const GET: APIRoute = async ({ request }) => {
     const error = e instanceof Error ? e.message : 'Unknown error'
     console.error('[API] Error:', error)
     return new Response(
-      JSON.stringify({ error }),
+      JSON.stringify({ error, timestamp: Date.now() }),
       { 
         status: 500,
         headers: {
