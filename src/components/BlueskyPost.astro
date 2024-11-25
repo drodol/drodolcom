@@ -1,64 +1,19 @@
 ---
-import { BskyAgent } from '@atproto/api';
-
-const agent = new BskyAgent({ service: 'https://bsky.social' });
-await agent.login({
-  identifier: import.meta.env.BLUESKY_USERNAME,
-  password: import.meta.env.BLUESKY_APP_PASSWORD,
-});
-
-const response = await agent.getAuthorFeed({ actor: 'drodol.com' });
-const latestPost = response.data.feed[0];
+// No server-side props needed anymore
 ---
 
 <div class="rounded-lg border dark:border-gray-800 p-4 hover:bg-gray-50 dark:hover:bg-gray-900 transition" id="bluesky-post">
-  {latestPost ? (
-    <>
-      <div class="flex items-start space-x-3">
-        <img
-          src={latestPost.post.author.avatar}
-          alt={`${latestPost.post.author.displayName}'s avatar`}
-          class="size-12 rounded-full my-0"
-        />
-        <div class="flex-1 min-w-0">
-          <div class="flex items-center space-x-1">
-            <div class="font-medium text-gray-900 dark:text-gray-100">
-              {latestPost.post.author.displayName}
-            </div>
-            <div class="text-gray-500 dark:text-gray-400">
-              @{latestPost.post.author.handle}
-            </div>
-          </div>
-          <div class="text-gray-800 dark:text-gray-200 mt-1">
-            {latestPost.post.record.text}
-          </div>
-          <div class="text-sm text-gray-500 dark:text-gray-400 mt-2">
-            <a
-              href={`https://bsky.app/profile/drodol.com/post/${latestPost.post.uri.split('/').pop()}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="hover:text-blue-500 dark:hover:text-blue-400"
-            >
-              View on Bluesky →
-            </a>
-          </div>
-        </div>
-      </div>
-    </>
-  ) : (
-    <div class="text-gray-500 dark:text-gray-400">
-      Loading latest post...
-    </div>
-  )}
+  <div class="text-gray-500 dark:text-gray-400">
+    Loading latest post...
+  </div>
 </div>
 
 <script>
-  // Refresh content every 5 minutes
-  setInterval(async () => {
+  const fetchAndRenderPost = async () => {
     try {
       const response = await fetch('/api/latest-post.json');
       const data = await response.json();
-
+      
       if (data.post) {
         const container = document.getElementById('bluesky-post');
         if (container) {
@@ -67,7 +22,7 @@ const latestPost = response.data.feed[0];
               <img
                 src="${data.post.author.avatar}"
                 alt="${data.post.author.displayName}'s avatar"
-                class="w-10 h-10 rounded-full"
+                class="size-12 rounded-full my-0"
               />
               <div class="flex-1 min-w-0">
                 <div class="flex items-center space-x-1">
@@ -98,6 +53,20 @@ const latestPost = response.data.feed[0];
       }
     } catch (error) {
       console.error('Error refreshing Bluesky post:', error);
+      const container = document.getElementById('bluesky-post');
+      if (container) {
+        container.innerHTML = `
+          <div class="text-gray-500 dark:text-gray-400">
+            Failed to load latest post. Please try again later.
+          </div>
+        `;
+      }
     }
-  }, 5 * 60 * 1000);
+  };
+
+  // Initial fetch
+  fetchAndRenderPost();
+
+  // Refresh every 5 minutes
+  setInterval(fetchAndRenderPost, 5 * 60 * 1000);
 </script>
