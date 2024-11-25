@@ -1,37 +1,71 @@
 import type { APIRoute } from 'astro';
-import { BskyAgent } from '@atproto/api';
+import { AtpAgent } from '@atproto/api';
 
-export const prerender = false; // Ensure this runs as an API endpoint
+export const prerender = false;
 
-export const GET: APIRoute = async () => {
+export const GET: APIRoute = async ({ request }) => {
   try {
-    // Set cache control headers
+    const username = import.meta.env.BLUESKY_USERNAME;
+    const password = import.meta.env.BLUESKY_APP_PASSWORD;
+
+    if (!username || !password) {
+      console.error('Missing Bluesky credentials');
+      return new Response(
+        JSON.stringify({ error: 'Server configuration error' }), 
+        { 
+          status: 500,
+          headers: new Headers({
+            'Content-Type': 'application/json',
+          })
+        }
+      );
+    }
+
     const headers = new Headers({
       'Content-Type': 'application/json',
       'Cache-Control': 'public, max-age=60', // Cache for 1 minute
       'X-Request-Time': new Date().toISOString(),
     });
 
-    // Initialize Bluesky agent
-    const agent = new BskyAgent({ service: 'https://bsky.social' });
+    const agent = new AtpAgent({ service: 'https://bsky.social' });
     await agent.login({
-      identifier: import.meta.env.BLUESKY_USERNAME,
-      password: import.meta.env.BLUESKY_APP_PASSWORD,
+      identifier: username,
+      password: password,
     });
 
-    // Get latest post
-    const response = await agent.getAuthorFeed({ actor: 'drodol.com' });
+    const response = await agent.api.app.bsky.feed.getAuthorFeed({ actor: username });
     const latestPost = response.data.feed[0];
 
-    return new Response(JSON.stringify({ post: latestPost.post }), {
-      status: 200,
-      headers,
-    });
+    if (!latestPost) {
+      return new Response(
+        JSON.stringify({ error: 'No posts found' }), 
+        { 
+          status: 404,
+          headers,
+        }
+      );
+    }
+
+    return new Response(
+      JSON.stringify({ post: latestPost.post }), 
+      {
+        status: 200,
+        headers,
+      }
+    );
   } catch (error) {
     console.error('Error fetching Bluesky post:', error);
-    return new Response(JSON.stringify({ error: 'Failed to fetch post' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return new Response(
+      JSON.stringify({ 
+        error: 'Failed to fetch post',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      }), 
+      {
+        status: 500,
+        headers: new Headers({
+          'Content-Type': 'application/json',
+        })
+      }
+    );
   }
-}
+};

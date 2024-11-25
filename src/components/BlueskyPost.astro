@@ -14,6 +14,11 @@
       const response = await fetch('/api/latest-post.json');
       const data = await response.json();
       
+      if (data.error) {
+        console.error('Bluesky API error:', data);
+        throw new Error(data.error);
+      }
+      
       if (data.post) {
         const container = document.getElementById('bluesky-post');
         if (container) {
@@ -57,7 +62,7 @@
       if (container) {
         container.innerHTML = `
           <div class="text-gray-500 dark:text-gray-400">
-            Failed to load latest post. Please try again later.
+            Failed to load latest post. Please check if environment variables are set correctly.
           </div>
         `;
       }
