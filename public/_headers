@@ -1,9 +1,0 @@
-/api/latest-post.json
-  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
-  Pragma: no-cache
-  Expires: 0
-  CF-Cache-Status: BYPASS
-  Cache-Tag: no-cache
-  Edge-Control: no-store
-  Cloudflare-CDN-Cache-Control: no-cache
-  CDN-Cache-Control: no-cache
