@@ -1,10 +1,12 @@
 import { Agent, CredentialSession } from '@atproto/api'
 import type { APIRoute } from 'astro'
 
+// Force dynamic rendering
 export const prerender = false
 
+// Add cache control header
 export const GET: APIRoute = async ({ request }) => {
-  console.log('[API] Latest post request received')
+  console.log('[API] Latest post request received:', new Date().toISOString())
   
   const username = import.meta.env.BLUESKY_USERNAME
   const password = import.meta.env.BLUESKY_APP_PASSWORD
@@ -14,12 +16,18 @@ export const GET: APIRoute = async ({ request }) => {
   if (!username || !password) {
     console.error('[API] Missing credentials')
     return new Response(
-      JSON.stringify({ error: 'Bluesky credentials not configured' }),
+      JSON.stringify({ 
+        error: 'Bluesky credentials not configured',
+        serverTime: new Date().toISOString()
+      }),
       { 
         status: 500,
         headers: {
           'Content-Type': 'application/json',
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+          'Surrogate-Control': 'no-store',
           'Access-Control-Allow-Origin': '*'
         }
       }
@@ -44,10 +52,15 @@ export const GET: APIRoute = async ({ request }) => {
     console.log('[API] Post details:', {
       text: latestPost?.record?.text,
       createdAt: latestPost?.record?.createdAt,
-      indexedAt: latestPost?.indexedAt
+      indexedAt: latestPost?.indexedAt,
+      serverTime: new Date().toISOString()
     })
 
-    const responseBody = { post: latestPost, timestamp: Date.now() }
+    const responseBody = { 
+      post: latestPost, 
+      timestamp: Date.now(),
+      serverTime: new Date().toISOString()
+    }
     console.log('[API] Sending response:', responseBody)
 
     return new Response(
@@ -56,7 +69,10 @@ export const GET: APIRoute = async ({ request }) => {
         status: 200,
         headers: {
           'Content-Type': 'application/json',
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+          'Surrogate-Control': 'no-store',
           'Access-Control-Allow-Origin': '*'
         }
       }
@@ -65,12 +81,19 @@ export const GET: APIRoute = async ({ request }) => {
     const error = e instanceof Error ? e.message : 'Unknown error'
     console.error('[API] Error:', error)
     return new Response(
-      JSON.stringify({ error, timestamp: Date.now() }),
+      JSON.stringify({ 
+        error, 
+        timestamp: Date.now(),
+        serverTime: new Date().toISOString()
+      }),
       { 
         status: 500,
         headers: {
           'Content-Type': 'application/json',
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+          'Surrogate-Control': 'no-store',
           'Access-Control-Allow-Origin': '*'
         }
       }

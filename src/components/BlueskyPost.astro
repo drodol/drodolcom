@@ -104,15 +104,16 @@ let initialPost = null
             
             const apiUrl = window.location.hostname === 'localhost' 
                 ? '/api/latest-post.json'
-                : 'https://drodol.com/api/latest-post.json';
+                : `https://drodol.com/api/latest-post.json?_=${Date.now()}`;
             
             console.log('[Bluesky] Fetching from:', apiUrl);
             
             const response = await fetch(apiUrl, {
                 headers: {
-                    'Cache-Control': 'no-cache',
+                    'Cache-Control': 'no-cache, no-store, must-revalidate, proxy-revalidate, max-age=0',
                     'Pragma': 'no-cache'
-                }
+                },
+                cache: 'no-store'
             });
 
             if (!response.ok) {
