@@ -9,9 +9,16 @@ export const GET: APIRoute = async ({ request }) => {
     const password = import.meta.env.BLUESKY_APP_PASSWORD;
 
     if (!username || !password) {
-      console.error('Missing Bluesky credentials');
+      console.error('Missing Bluesky credentials:', {
+        hasUsername: !!username,
+        hasPassword: !!password,
+        nodeEnv: process.env.NODE_ENV
+      });
       return new Response(
-        JSON.stringify({ error: 'Server configuration error' }), 
+        JSON.stringify({ 
+          error: 'Server configuration error',
+          details: `Missing ${!username ? 'username' : ''} ${!password ? 'password' : ''}`.trim()
+        }), 
         { 
           status: 500,
           headers: new Headers({
