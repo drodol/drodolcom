@@ -7,7 +7,9 @@ export default defineConfig({
   site: 'https://drodol.com',
   base: '/',
   output: 'server',
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    mode: 'advanced',
+  }),
   integrations: [
     tailwind(),
     alpinejs(),
