@@ -14,14 +14,14 @@ const pageTitle = title === 'Home' ? '@drodol' : `${title} | @drodol`;
 		<meta charset="UTF-8" />
 		<meta name="description" content={description}>
 		<meta name="viewport" content="width=device-width" />
-		
+
 		<!-- Favicon -->
 		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 		<link rel="manifest" href="/site.webmanifest">
 		<link rel="shortcut icon" href="/favicon.ico">
-		
+
 		<meta name="generator" content={Astro.generator} />
 		<title>{pageTitle}</title>
 		<script>
@@ -32,6 +32,9 @@ const pageTitle = title === 'Home' ? '@drodol' : `${title} | @drodol`;
 				document.documentElement.classList.remove('dark')
 			}
 		</script>
+		<script defer data-domain="drodol.com" src="https://plausible.drodol.com/js/script.hash.outbound-links.tagged-events.js"></script>
+		<script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+
 	</head>
 	<body class="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
 		<header class="fixed w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm z-50 animate-fade-in-down">
