@@ -1,0 +1,39 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Layout from './Layout.astro';
+
+type Props = {
+  post: CollectionEntry<'blog'>;
+};
+
+const { post } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage } = post.data;
+
+const formattedPubDate = pubDate.toLocaleDateString('en-us', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-us', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Layout title={title} description={description}>
+  <article class="prose lg:prose-xl mx-auto px-4 py-8">
+    {heroImage && <img src={heroImage} alt="" class="w-full h-auto" />}
+    <h1 class="text-4xl font-bold mb-2">{title}</h1>
+    <div class="text-gray-600 mb-8">
+      <time>{formattedPubDate}</time>
+      {updatedDate && (
+        <div class="italic">
+          Last updated on <time>{formattedUpdatedDate}</time>
+        </div>
+      )}
+    </div>
+    <slot />
+  </article>
+</Layout>
