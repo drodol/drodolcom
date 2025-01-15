@@ -9,7 +9,7 @@ export default {
         'secondary': '#475569',
       },
       fontFamily: {
-        sans: ['Inter var', 'system-ui', 'sans-serif'],
+        sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out',
