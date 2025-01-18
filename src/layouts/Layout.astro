@@ -4,7 +4,7 @@ interface Props {
 	description?: string;
 }
 
-const { title, description = "David Rodriguez's personal website" } = Astro.props;
+const { title, description = "drodol's personal website" } = Astro.props;
 const pageTitle = title === 'Home' ? '@drodol' : `${title} | @drodol`;
 ---
 
