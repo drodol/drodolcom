@@ -5,11 +5,24 @@ export default {
   theme: {
     extend: {
       colors: {
-        'primary': '#2563eb',
+        'neo-bg': '#EEF2F7',
+        'neo-black': '#000000',
+        'neo-accent': '#4ADE80',
+        'neo-white': '#FFFFFF',
+        'primary': '#4ADE80', // Green accent color from the image
         'secondary': '#475569',
+        'background': '#EEF2F7', // Light blue/gray background
+        'player': {
+          'bg': '#000000', // Black player background
+          'control': '#4ADE80', // Green control elements
+        }
+      },
+      boxShadow: {
+        'neo': '4px 4px 0 0 #000000',
       },
       fontFamily: {
-        sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+        mono: ['VT323', 'monospace'],
+        sans: ['Space Grotesk', 'system-ui', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out',
