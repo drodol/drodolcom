@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@astrojs/alpinejs": "^0.3.1",
-    "@astrojs/cloudflare": "^12.6.5",
+    "@astrojs/cloudflare": "^12.6.6",
     "@astrojs/tailwind": "^5.0.2",
     "@atproto/api": "^0.13.18",
     "@types/alpinejs": "^3.13.5",
