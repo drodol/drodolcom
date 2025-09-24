@@ -5,43 +5,35 @@ export default {
   theme: {
     extend: {
       colors: {
-        'neo-bg': '#EEF2F7',
-        'neo-black': '#000000',
-        'neo-accent': '#4ADE80',
-        'neo-white': '#FFFFFF',
-        'primary': '#4ADE80', // Green accent color from the image
-        'secondary': '#475569',
-        'background': '#EEF2F7', // Light blue/gray background
-        'player': {
-          'bg': '#000000', // Black player background
-          'control': '#4ADE80', // Green control elements
-        }
-      },
-      boxShadow: {
-        'neo': '4px 4px 0 0 #000000',
+        // Medium-inspired color palette
+        'medium-green': '#1a8917',
+        'medium-bg': '#ffffff',
+        'medium-text': '#242424',
+        'medium-text-secondary': '#6b6b6b',
+        'medium-border': '#e6e6e6',
+        'medium-accent': '#1a8917',
+        'medium-hover': '#f9f9f9',
       },
       fontFamily: {
-        mono: ['VT323', 'monospace'],
-        sans: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        // Instrument Serif for headings, system fonts for body
+        serif: ['Instrument Serif', 'Georgia', 'serif'],
+        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'sans-serif'],
       },
-      animation: {
-        'fade-in': 'fadeIn 0.5s ease-out',
-        'fade-in-up': 'fadeInUp 0.5s ease-out',
-        'fade-in-down': 'fadeInDown 0.5s ease-out',
+      fontSize: {
+        // Medium typography scale
+        'medium-large': ['2.25rem', { lineHeight: '1.15', letterSpacing: '-0.02em' }],
+        'medium-h1': ['2rem', { lineHeight: '1.2', letterSpacing: '-0.02em' }],
+        'medium-h2': ['1.5rem', { lineHeight: '1.3', letterSpacing: '-0.01em' }],
+        'medium-body': ['1.125rem', { lineHeight: '1.58' }],
+        'medium-small': ['0.875rem', { lineHeight: '1.4' }],
       },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        fadeInUp: {
-          '0%': { opacity: '0', transform: 'translateY(10px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        fadeInDown: {
-          '0%': { opacity: '0', transform: 'translateY(-10px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
+      maxWidth: {
+        'medium': '680px',
+        'medium-wide': '728px',
+      },
+      spacing: {
+        'medium': '24px',
+        'medium-large': '48px',
       },
     },
   },

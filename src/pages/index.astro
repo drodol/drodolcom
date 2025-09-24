@@ -3,97 +3,76 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Home">
-	<div class="space-y-12">
-		<section class="prose animate-fade-in bg-neo-white border-2 border-neo-black p-8 shadow-neo">
-			<h1 class="text-4xl font-mono mb-6">Hey, I'm David <span class="wave inline-block hover:cursor-default">👋</span></h1>
-			<p class="lead text-lg font-sans">
+	<article class="space-y-12">
+		<!-- Hero Section -->
+		<section class="space-y-6">
+			<h1 class="text-medium-large font-serif font-bold text-medium-text leading-tight">
+				Hey, I'm David <span class="wave inline-block hover:cursor-default">👋</span>
+			</h1>
+			<p class="text-medium-body text-medium-text-secondary">
 				I'm a health and safety professional who likes to code on the side. I'm passionate about solving problems for people and with people.
 				I believe in the power of collaboration and love to learn from others.
 			</p>
 		</section>
 
-		<section class="space-y-4 [animation-delay:200ms] animate-fade-in-up opacity-0">
-			<h2 class="text-2xl font-mono bg-neo-white border-2 border-neo-black p-4 shadow-neo inline-block">Current Projects</h2>
-			<div class="space-y-4">
-				<a href="https://jobsinenglish.dk" target="_blank" rel="noopener noreferrer" class="block">
-					<div class="bg-neo-white border-2 border-neo-black p-6 shadow-neo hover:-translate-y-1 hover:shadow-none transition-all duration-300 group relative">
-						<div class="absolute top-4 right-4 text-neo-black group-hover:text-neo-accent transition-colors">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-								<line x1="7" y1="17" x2="17" y2="7"></line>
-								<polyline points="7 7 17 7 17 17"></polyline>
+		<!-- Current Projects Section -->
+		<section class="space-y-8">
+			<h2 class="text-medium-h1 font-serif font-bold text-medium-text">Current Projects</h2>
+			<div class="space-y-6">
+				<article class="group">
+					<a href="https://jobsinenglish.dk" target="_blank" rel="noopener noreferrer" class="block p-6 rounded-lg hover:bg-medium-hover transition-colors">
+						<div class="flex items-start justify-between">
+							<div class="flex-1">
+								<h3 class="text-medium-h2 font-serif font-bold text-medium-text mb-2 group-hover:text-medium-accent transition-colors">
+									jobsinenglish.dk
+								</h3>
+								<p class="text-medium-body text-medium-text-secondary">
+									A job board dedicated to English speaking jobs in Denmark. Helping foreigners find their dream jobs in Denmark.
+								</p>
+							</div>
+							<svg class="w-5 h-5 text-medium-text-secondary group-hover:text-medium-accent transition-colors ml-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
 							</svg>
 						</div>
-						<h3 class="text-lg font-mono mb-2">jobsinenglish.dk</h3>
-						<p class="text-gray-600 font-sans">
-							A job board dedicated to English speaking jobs in Denmark. Helping foreigners find their dream jobs in Denmark.
-						</p>
-					</div>
-				</a>
-				<a href="https://denmarkforexpats.com" target="_blank" rel="noopener noreferrer" class="block">
-					<div class="bg-neo-white border-2 border-neo-black p-6 shadow-neo hover:-translate-y-1 hover:shadow-none transition-all duration-300 group relative">
-						<div class="absolute top-4 right-4 text-neo-black group-hover:text-neo-accent transition-colors">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-								<line x1="7" y1="17" x2="17" y2="7"></line>
-								<polyline points="7 7 17 7 17 17"></polyline>
+					</a>
+				</article>
+
+				<article class="group">
+					<a href="https://denmarkforexpats.com" target="_blank" rel="noopener noreferrer" class="block p-6 rounded-lg hover:bg-medium-hover transition-colors">
+						<div class="flex items-start justify-between">
+							<div class="flex-1">
+								<h3 class="text-medium-h2 font-serif font-bold text-medium-text mb-2 group-hover:text-medium-accent transition-colors">
+									denmarkforexpats.com
+								</h3>
+								<p class="text-medium-body text-medium-text-secondary">
+									A directory of businesses and services for foreigners in Denmark. Helping expats find their way around in Denmark.
+								</p>
+							</div>
+							<svg class="w-5 h-5 text-medium-text-secondary group-hover:text-medium-accent transition-colors ml-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
 							</svg>
 						</div>
-						<h3 class="text-lg font-mono mb-2">denmarkforexpats.com</h3>
-						<p class="text-gray-600 font-sans">
-							A directory of businesses and services for foreigners in Denmark. Helping expats find their way around in Denmark.
-						</p>
-					</div>
-				</a>
+					</a>
+				</article>
 			</div>
 		</section>
 
-		<section class="space-y-4 [animation-delay:400ms] animate-fade-in-up opacity-0">
-			<h2 class="text-2xl font-mono bg-neo-white border-2 border-neo-black p-4 shadow-neo inline-block">Latest Updates</h2>
-			<div class="bg-neo-white border-2 border-neo-black p-6 shadow-neo">
-				<!-- Video/Player Area -->
-				<div class="aspect-video bg-black rounded mb-4">
-					<!-- Video content would go here -->
-					<div class="w-full h-full flex items-center justify-center">
-						<div class="w-full h-0.5 bg-primary"></div>
-					</div>
-				</div>
-				
-				<!-- Controls -->
-				<div class="space-y-4">
-					<!-- Progress Bar -->
-					<div class="relative w-full h-1 bg-gray-200 rounded">
-						<div class="absolute left-0 top-0 h-full w-1/3 bg-player-control rounded"></div>
-					</div>
-					
-					<!-- Time and Controls -->
-					<div class="flex items-center justify-between">
-						<div class="flex items-center space-x-4">
-							<button class="text-player-control hover:text-primary transition-colors">
-								<svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
-									<path d="M8 5v14l11-7z"/>
-								</svg>
-							</button>
-							<span class="text-gray-600 font-sans">2:51 / 3:06</span>
-						</div>
-						
-						<!-- Volume Control -->
-						<div class="flex items-center space-x-2">
-							<svg class="w-6 h-6 text-gray-600" viewBox="0 0 24 24" fill="currentColor">
-								<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-							</svg>
-							<div class="relative w-24 h-1 bg-gray-200 rounded">
-								<div class="absolute left-0 top-0 h-full w-2/3 bg-player-control rounded"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<p class="mt-4 font-sans">
-					I write regularly about life, code, AI, and experiences on my <a href="/blog" class="text-neo-accent hover:underline">blog</a>.
-					You can also check out my <a href="/now" class="text-neo-accent hover:underline">/now page</a> to see what I'm currently focused on,
-					or visit my <a href="/about" class="text-neo-accent hover:underline">about page</a> to learn more about me.
+		<!-- Latest Updates Section -->
+		<section class="space-y-8">
+			<h2 class="text-medium-h1 font-serif font-bold text-medium-text">Latest Updates</h2>
+			<div class="p-6 rounded-lg bg-medium-hover">
+				<p class="text-medium-body text-medium-text-secondary">
+					I write regularly about life, code, AI, and experiences on my
+					<a href="/blog" class="text-medium-accent hover:underline font-medium">blog</a>.
+					You can also check out my
+					<a href="/now" class="text-medium-accent hover:underline font-medium">/now page</a>
+					to see what I'm currently focused on, or visit my
+					<a href="/about" class="text-medium-accent hover:underline font-medium">about page</a>
+					to learn more about me.
 				</p>
 			</div>
 		</section>
-	</div>
+	</article>
 </Layout>
 
 <style>

@@ -26,10 +26,9 @@ const pageTitle = title === 'Home' ? '@drodol' : `${title} | @drodol`;
 		<title>{pageTitle}</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=VT323&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
 		<script>
 			// On page load or when changing themes, best to add inline in `head` to avoid FOUC
@@ -43,26 +42,26 @@ const pageTitle = title === 'Home' ? '@drodol' : `${title} | @drodol`;
 		<script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 
 	</head>
-	<body class="min-h-screen bg-neo-bg text-neo-black font-sans">
-		<header class="fixed w-full bg-neo-white border-2 border-neo-black shadow-neo z-50 animate-fade-in-down">
-			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+	<body class="min-h-screen bg-medium-bg text-medium-text font-sans antialiased">
+		<header class="sticky top-0 bg-medium-bg/95 backdrop-blur-sm border-b border-medium-border z-50">
+			<div class="max-w-medium-wide mx-auto px-6">
 				<div class="flex justify-between items-center py-4" x-data="{ isOpen: false }">
 					<!-- Logo -->
-					<a href="/" class="text-xl font-mono hover:text-neo-accent transition-colors">@drodol</a>
+					<a href="/" class="text-xl font-serif font-bold text-medium-text hover:text-medium-accent transition-colors">@drodol</a>
 
 					<!-- Desktop Navigation -->
 					<nav class="hidden md:flex items-center space-x-8">
-						<a href="/" class="font-mono hover:text-neo-accent transition-colors">Home</a>
-						<a href="/about" class="font-mono hover:text-neo-accent transition-colors">About</a>
-						<a href="/blog" class="font-mono hover:text-neo-accent transition-colors">Blog</a>
-						<a href="/now" class="font-mono hover:text-neo-accent transition-colors">/Now</a>
-						<a href="/uses" class="font-mono hover:text-neo-accent transition-colors">Uses</a>
-						<a href="/contact" class="font-mono hover:text-neo-accent transition-colors">Contact</a>
+						<a href="/" class="text-medium-text hover:text-medium-accent transition-colors text-sm">Home</a>
+						<a href="/about" class="text-medium-text hover:text-medium-accent transition-colors text-sm">About</a>
+						<a href="/blog" class="text-medium-text hover:text-medium-accent transition-colors text-sm">Blog</a>
+						<a href="/now" class="text-medium-text hover:text-medium-accent transition-colors text-sm">Now</a>
+						<a href="/uses" class="text-medium-text hover:text-medium-accent transition-colors text-sm">Uses</a>
+						<a href="/contact" class="text-medium-text hover:text-medium-accent transition-colors text-sm">Contact</a>
 					</nav>
 
 					<!-- Mobile Menu Button -->
-					<button 
-						class="md:hidden text-neo-black hover:text-neo-accent transition-colors"
+					<button
+						class="md:hidden text-medium-text hover:text-medium-accent transition-colors"
 						@click="isOpen = !isOpen"
 						aria-label="Toggle menu"
 					>
@@ -81,23 +80,23 @@ const pageTitle = title === 'Home' ? '@drodol' : `${title} | @drodol`;
 						x-transition:leave="transition ease-in duration-150"
 						x-transition:leave-start="opacity-100 translate-y-0"
 						x-transition:leave-end="opacity-0 -translate-y-4"
-						class="absolute top-full left-0 right-0 bg-neo-white border-2 border-neo-black shadow-neo mt-2 md:hidden"
+						class="absolute top-full left-0 right-0 bg-medium-bg border-b border-medium-border md:hidden"
 					>
-						<nav class="flex flex-col space-y-4 p-4 font-VT323">
-							<a href="/" class="hover:text-neo-accent transition-colors">Home</a>
-							<a href="/about" class="hover:text-neo-accent transition-colors">About</a>
-							<a href="/blog" class="hover:text-neo-accent transition-colors">Blog</a>
-							<a href="/now" class="hover:text-neo-accent transition-colors">/Now</a>
-							<a href="/uses" class="hover:text-neo-accent transition-colors">Uses</a>
-							<a href="/contact" class="hover:text-neo-accent transition-colors">Contact</a>
+						<nav class="flex flex-col space-y-4 p-6">
+							<a href="/" class="text-medium-text hover:text-medium-accent transition-colors">Home</a>
+							<a href="/about" class="text-medium-text hover:text-medium-accent transition-colors">About</a>
+							<a href="/blog" class="text-medium-text hover:text-medium-accent transition-colors">Blog</a>
+							<a href="/now" class="text-medium-text hover:text-medium-accent transition-colors">Now</a>
+							<a href="/uses" class="text-medium-text hover:text-medium-accent transition-colors">Uses</a>
+							<a href="/contact" class="text-medium-text hover:text-medium-accent transition-colors">Contact</a>
 						</nav>
 					</div>
 				</div>
 			</div>
 		</header>
 
-		<main class="pt-24 animate-fade-in">
-			<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+		<main class="py-12">
+			<div class="max-w-medium mx-auto px-6">
 				<slot />
 			</div>
 		</main>

@@ -12,35 +12,54 @@ const sortedPosts = posts.sort(
 ---
 
 <Layout title="Blog" description="Read my latest blog posts">
-  <main class="max-w-4xl mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold mb-8">Blog Posts</h1>
-    <div class="space-y-8">
+  <div class="space-y-12">
+    <header>
+      <h1 class="text-medium-large font-serif font-bold text-medium-text">Blog</h1>
+    </header>
+
+    <div class="space-y-12">
       {
         sortedPosts.map((post) => (
-          <article class="border-b border-gray-200 pb-8">
-            <h2 class="text-2xl font-bold mb-2">
-              <a href={`/blog/${post.slug}`} class="hover:text-blue-600">
-                {post.data.title}
-              </a>
-            </h2>
-            <time class="text-gray-600">
-              {post.data.pubDate.toLocaleDateString('en-us', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </time>
-            <p class="mt-3">{post.data.description}</p>
-            <div class="mt-4">
-              {post.data.tags.map((tag) => (
-                <span class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-                  #{tag}
-                </span>
-              ))}
-            </div>
+          <article class="group">
+            <a href={`/blog/${post.slug}`} class="block space-y-4 hover:bg-medium-hover p-6 rounded-lg transition-colors -mx-6">
+              <header class="space-y-3">
+                <h2 class="text-medium-h1 font-serif font-bold text-medium-text group-hover:text-medium-accent transition-colors leading-tight">
+                  {post.data.title}
+                </h2>
+                <div class="flex items-center space-x-4 text-medium-small text-medium-text-secondary">
+                  <time>
+                    {post.data.pubDate.toLocaleDateString('en-us', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </time>
+                  {post.data.tags && post.data.tags.length > 0 && (
+                    <div class="flex items-center space-x-2">
+                      <span>•</span>
+                      <div class="flex space-x-2">
+                        {post.data.tags.slice(0, 3).map((tag) => (
+                          <span class="text-medium-text-secondary">
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </header>
+
+              <p class="text-medium-body text-medium-text-secondary leading-relaxed">
+                {post.data.description}
+              </p>
+
+              <div class="text-medium-accent text-sm font-medium group-hover:underline">
+                Read more →
+              </div>
+            </a>
           </article>
         ))
       }
     </div>
-  </main>
+  </div>
 </Layout>

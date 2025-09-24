@@ -23,17 +23,89 @@ const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-us', {
 ---
 
 <Layout title={title} description={description}>
-  <article class="prose lg:prose-xl mx-auto px-4 py-8">
-    {heroImage && <img src={heroImage} alt="" class="w-full h-auto" />}
-    <h1 class="text-4xl font-bold mb-2">{title}</h1>
-    <div class="text-gray-600 mb-8">
-      <time>{formattedPubDate}</time>
-      {updatedDate && (
-        <div class="italic">
-          Last updated on <time>{formattedUpdatedDate}</time>
-        </div>
+  <article class="max-w-medium mx-auto">
+    <!-- Header -->
+    <header class="mb-12 space-y-6">
+      <h1 class="text-medium-large font-serif font-bold text-medium-text leading-tight">
+        {title}
+      </h1>
+      <div class="flex items-center space-x-4 text-medium-small text-medium-text-secondary">
+        <time>{formattedPubDate}</time>
+        {updatedDate && (
+          <span class="text-medium-text-secondary">
+            • Updated on <time>{formattedUpdatedDate}</time>
+          </span>
+        )}
+      </div>
+      {heroImage && (
+        <img
+          src={heroImage}
+          alt=""
+          class="w-full h-auto rounded-lg"
+        />
       )}
+    </header>
+
+    <!-- Content -->
+    <div class="prose prose-lg max-w-none">
+      <slot />
     </div>
-    <slot />
   </article>
+
+  <style>
+    /* Medium-inspired typography styles */
+    .prose {
+      @apply text-medium-text;
+    }
+
+    .prose h1,
+    .prose h2,
+    .prose h3,
+    .prose h4,
+    .prose h5,
+    .prose h6 {
+      @apply font-serif font-bold text-medium-text;
+    }
+
+    .prose h1 {
+      @apply text-medium-h1 mb-6 mt-12 first:mt-0;
+    }
+
+    .prose h2 {
+      @apply text-medium-h2 mb-4 mt-10;
+    }
+
+    .prose p {
+      @apply text-medium-body mb-6 leading-relaxed;
+    }
+
+    .prose a {
+      @apply text-medium-accent hover:underline font-medium;
+    }
+
+    .prose blockquote {
+      @apply border-l-4 border-medium-border pl-6 italic text-medium-text-secondary my-8;
+    }
+
+    .prose code {
+      @apply bg-medium-hover px-2 py-1 rounded text-sm;
+    }
+
+    .prose pre {
+      @apply bg-medium-hover p-4 rounded-lg overflow-x-auto my-6;
+    }
+
+    .prose ul,
+    .prose ol {
+      @apply mb-6;
+    }
+
+    .prose li {
+      @apply mb-2;
+    }
+
+    .prose img {
+      @apply rounded-lg my-8;
+    }
+  </style>
 </Layout>
