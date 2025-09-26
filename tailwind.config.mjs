@@ -38,6 +38,16 @@ export default {
     },
   },
   plugins: [
-    require('@tailwindcss/typography'),
+    require('@tailwindcss/typography')({
+      DEFAULT: {
+        css: {
+          // Force typography plugin to use Instrument Serif for headings
+          'h1, h2, h3, h4, h5, h6': {
+            fontFamily: '"Instrument Serif", Georgia, serif',
+            fontWeight: '700',
+          },
+        },
+      },
+    }),
   ],
 }

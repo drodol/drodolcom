@@ -21,40 +21,60 @@ const sortedPosts = posts.sort(
       {
         sortedPosts.map((post) => (
           <article class="group">
-            <a href={`/blog/${post.slug}`} class="block space-y-4 hover:bg-medium-hover p-6 rounded-lg transition-colors -mx-6">
-              <header class="space-y-3">
-                <h2 class="text-medium-h1 font-serif font-bold text-medium-text group-hover:text-medium-accent transition-colors leading-tight">
-                  {post.data.title}
-                </h2>
-                <div class="flex items-center space-x-4 text-medium-small text-medium-text-secondary">
-                  <time>
-                    {post.data.pubDate.toLocaleDateString('en-us', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
-                  </time>
-                  {post.data.tags && post.data.tags.length > 0 && (
-                    <div class="flex items-center space-x-2">
-                      <span>•</span>
-                      <div class="flex space-x-2">
-                        {post.data.tags.slice(0, 3).map((tag) => (
-                          <span class="text-medium-text-secondary">
-                            #{tag}
-                          </span>
-                        ))}
-                      </div>
+            <a href={`/blog/${post.slug}`} class="block hover:bg-medium-hover p-6 rounded-lg transition-colors -mx-6">
+              <div class="flex gap-6">
+                {/* Featured Image */}
+                {post.data.heroImage && (
+                  <div class="flex-shrink-0">
+                    <img
+                      src={post.data.heroImage}
+                      alt={post.data.title}
+                      class="w-32 h-24 object-cover rounded-lg transition-opacity duration-300"
+                      loading="lazy"
+                      decoding="async"
+                      onload="this.style.opacity='1'"
+                      style="opacity: 0; background-color: #f3f4f6;"
+                    />
+                  </div>
+                )}
+
+                {/* Content */}
+                <div class="flex-1 space-y-3">
+                  <header class="space-y-3">
+                    <h2 class="text-medium-h1 font-serif font-bold text-medium-text group-hover:text-medium-accent transition-colors leading-tight">
+                      {post.data.title}
+                    </h2>
+                    <div class="flex items-center space-x-4 text-medium-small text-medium-text-secondary">
+                      <time>
+                        {post.data.pubDate.toLocaleDateString('en-us', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}
+                      </time>
+                      {post.data.tags && post.data.tags.length > 0 && (
+                        <div class="flex items-center space-x-2">
+                          <span>•</span>
+                          <div class="flex space-x-2">
+                            {post.data.tags.slice(0, 3).map((tag) => (
+                              <span class="text-medium-text-secondary">
+                                #{tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  )}
+                  </header>
+
+                  <p class="text-medium-body text-medium-text-secondary leading-relaxed">
+                    {post.data.description}
+                  </p>
+
+                  <div class="text-medium-accent text-sm font-medium group-hover:underline">
+                    Read more →
+                  </div>
                 </div>
-              </header>
-
-              <p class="text-medium-body text-medium-text-secondary leading-relaxed">
-                {post.data.description}
-              </p>
-
-              <div class="text-medium-accent text-sm font-medium group-hover:underline">
-                Read more →
               </div>
             </a>
           </article>

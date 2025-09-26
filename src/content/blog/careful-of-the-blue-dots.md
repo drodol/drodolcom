@@ -1,0 +1,11 @@
+---
+title: "Careful of the Blue Dots"
+description: "A psychological phenomenon that explains why we sometimes continue to perceive problems or threats in our environments despite things improving."
+pubDate: 2024-10-15
+updatedDate: 2024-10-15
+heroImage: "https://media.blogmaker.app/a8cea2ea51569e01861ce41ad905c937.jpeg"
+tags: []
+draft: false
+---
+
+Today I learned about the Blue Dot Effect. It is a psychological phenomenon that explains why we sometimes continue to perceive problems or threats in our environments despite things improving. The effect is also known as "prevalence-induced concept change" and has several implications: 1. **Perception of Problems:** Our environment can actually be improving and we might be making way into solving (or actually solving) major problems, but we tend to amplify minor issues and make them seem more significant than they actually are. 2. **Negativity Bias:** Our brains become conditioned to look for threats (and/or issues), regardless of how safe or comfortable our surroundings become. 3. **Paradox of Progress:** Despite progress and improvements, people often feel more dissatisfied or stressed out about smaller problems. 4. **Impact on Decision-Making:** This effect can have a big impact in many areas of our personal and professional lives. I have reflected on this for half a day today. I can definitely say I have fallen victim of this more than I care to admit. I think a good antidote is practicing gratitude and writing! Practicing gratitude can help you see that what you have is actually pretty good, thus removing the veil of doom you might be experiencing if suffering from this effect. Writing, on the other hand, if done consistently, can help you see how far you have come and that, most likely, you already have what you wanted from a while back. This is the video that got me curious about the Blue Dot Effect: \[Mark Manson Short Vid\]([https://youtube.com/shorts/kBz...](https://youtube.com/shorts/kBz5EdBhaYk?si=w9w6E0wSU4IkdM8S))

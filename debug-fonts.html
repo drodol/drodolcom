@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Font Debug Test</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+    <style>
+        .serif-test {
+            font-family: 'Instrument Serif', Georgia, serif !important;
+            font-weight: 700 !important;
+            color: #242424 !important;
+        }
+
+        .prose h1,
+        .prose h2 {
+            font-family: 'Instrument Serif', Georgia, serif !important;
+            font-weight: 700 !important;
+            color: #242424 !important;
+        }
+
+        .prose :where(h1):not(:where([class~="not-prose"] *)),
+        .prose :where(h2):not(:where([class~="not-prose"] *)) {
+            font-family: 'Instrument Serif', Georgia, serif !important;
+            font-weight: 700 !important;
+            color: #242424 !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>Font Debug Test</h1>
+
+    <h2 class="serif-test">This should be Instrument Serif (direct class)</h2>
+
+    <div class="prose">
+        <h1>Prose H1 - Should be serif</h1>
+        <h2>Prose H2 - Should be serif</h2>
+        <p>This paragraph should use default font</p>
+    </div>
+
+    <script>
+        // Check computed styles
+        const elements = [
+            document.querySelector('h2.serif-test'),
+            document.querySelector('.prose h1'),
+            document.querySelector('.prose h2')
+        ];
+
+        elements.forEach((el, index) => {
+            if (el) {
+                const computedStyle = getComputedStyle(el);
+                console.log(`Element ${index + 1}:`, {
+                    fontFamily: computedStyle.fontFamily,
+                    fontWeight: computedStyle.fontWeight,
+                    element: el.tagName + (el.className ? '.' + el.className : '')
+                });
+            }
+        });
+
+        // Check if font loaded
+        if (document.fonts) {
+            document.fonts.ready.then(() => {
+                console.log('Fonts loaded. Available fonts:',
+                    Array.from(document.fonts).map(font => font.family));
+            });
+        }
+    </script>
+</body>
+</html>

@@ -28,7 +28,8 @@ const pageTitle = title === 'Home' ? '@drodol' : `${title} | @drodol`;
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+		<link rel="preload" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 
 		<script>
 			// On page load or when changing themes, best to add inline in `head` to avoid FOUC
@@ -43,6 +44,24 @@ const pageTitle = title === 'Home' ? '@drodol' : `${title} | @drodol`;
 
 	</head>
 	<body class="min-h-screen bg-medium-bg text-medium-text font-sans antialiased">
+		<style>
+			/* Global CSS custom property for heading font */
+			:root {
+				--heading-font: 'Instrument Serif', Georgia, serif;
+			}
+
+			/* Global override for ALL headings - force Instrument Serif */
+			* {
+				--tw-prose-headings: var(--heading-font) !important;
+			}
+
+			h1, h2, h3, h4, h5, h6,
+			.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6,
+			article h1, article h2, article h3, article h4, article h5, article h6 {
+				font-family: var(--heading-font) !important;
+				font-weight: 700 !important;
+			}
+		</style>
 		<header class="sticky top-0 bg-medium-bg/95 backdrop-blur-sm border-b border-medium-border z-50">
 			<div class="max-w-medium-wide mx-auto px-6">
 				<div class="flex justify-between items-center py-4" x-data="{ isOpen: false }">

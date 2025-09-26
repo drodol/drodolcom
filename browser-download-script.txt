@@ -1,0 +1,55 @@
+(function() {
+    const postTitle = document.querySelector('h1').textContent.toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+
+    // Find all images with remote URLs
+    const remoteImages = document.querySelectorAll('img[src*="editor.blogstatic.io"], img[src*="editor.blogmaker.app"]');
+
+    console.log(`Found ${remoteImages.length} images to download`);
+
+    remoteImages.forEach((img, index) => {
+        const filename = `${postTitle}-${index + 1}-${img.src.split('/').pop()}`;
+
+        // Create download link using fetch
+        fetch(img.src)
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = filename;
+                link.textContent = `Download ${filename}`;
+                link.style.display = 'block';
+                link.style.margin = '10px';
+                link.style.padding = '10px';
+                link.style.background = '#f0f0f0';
+                link.style.color = '#333';
+                link.style.textDecoration = 'none';
+                link.style.border = '1px solid #ccc';
+                link.style.borderRadius = '4px';
+
+                document.body.appendChild(link);
+
+                console.log(`Created download link for: ${filename}`);
+            })
+            .catch(error => {
+                console.error(`Failed to create download for ${filename}:`, error);
+
+                // Fallback: create a link that opens the image in a new tab
+                const link = document.createElement('a');
+                link.href = img.src;
+                link.target = '_blank';
+                link.textContent = `Open ${filename} (right-click to save)`;
+                link.style.display = 'block';
+                link.style.margin = '10px';
+                link.style.padding = '10px';
+                link.style.background = '#ffe6e6';
+                link.style.color = '#333';
+                link.style.textDecoration = 'none';
+                link.style.border = '1px solid #ffcccc';
+                link.style.borderRadius = '4px';
+
+                document.body.appendChild(link);
+            });
+    });
+})();

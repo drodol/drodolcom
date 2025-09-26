@@ -41,7 +41,11 @@ const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-us', {
         <img
           src={heroImage}
           alt=""
-          class="w-full h-auto rounded-lg"
+          class="w-full h-auto rounded-lg transition-opacity duration-300"
+          loading="lazy"
+          decoding="async"
+          onload="this.style.opacity='1'"
+          style="opacity: 0; background-color: #f3f4f6;"
         />
       )}
     </header>
@@ -58,21 +62,51 @@ const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-us', {
       @apply text-medium-text;
     }
 
+    /* Force all headings to use Instrument Serif with maximum specificity */
+    article .prose h1,
+    article .prose h2,
+    article .prose h3,
+    article .prose h4,
+    article .prose h5,
+    article .prose h6,
     .prose h1,
     .prose h2,
     .prose h3,
     .prose h4,
     .prose h5,
-    .prose h6 {
-      @apply font-serif font-bold text-medium-text;
+    .prose h6,
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Instrument Serif', Georgia, serif !important;
+      font-weight: 700 !important;
+      color: #242424 !important;
     }
 
     .prose h1 {
-      @apply text-medium-h1 mb-6 mt-12 first:mt-0;
+      @apply text-medium-h1 mb-6 mt-12 first:mt-0 !important;
+      font-family: 'Instrument Serif', Georgia, serif !important;
     }
 
     .prose h2 {
-      @apply text-medium-h2 mb-4 mt-10;
+      @apply text-medium-h2 mb-4 mt-10 !important;
+      font-family: 'Instrument Serif', Georgia, serif !important;
+    }
+
+    .prose h3 {
+      @apply text-xl mb-3 mt-8 !important;
+      font-family: 'Instrument Serif', Georgia, serif !important;
+    }
+
+    .prose h4 {
+      @apply text-lg mb-2 mt-6 !important;
+      font-family: 'Instrument Serif', Georgia, serif !important;
+    }
+
+    .prose h5 {
+      font-family: 'Instrument Serif', Georgia, serif !important;
+    }
+
+    .prose h6 {
+      font-family: 'Instrument Serif', Georgia, serif !important;
     }
 
     .prose p {
@@ -104,8 +138,71 @@ const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-us', {
       @apply mb-2;
     }
 
+    /* Images with better spacing */
     .prose img {
-      @apply rounded-lg my-8;
+      @apply rounded-lg mb-2 transition-opacity duration-300;
+      margin-top: 2rem;
+      opacity: 0;
+      background-color: #f3f4f6;
+    }
+
+    .prose img.loaded {
+      opacity: 1;
+      background-color: transparent;
+    }
+
+    /* Image captions - paragraphs that immediately follow images */
+    .prose img + p {
+      @apply text-medium-small text-medium-text-secondary italic mt-1 mb-6 leading-normal;
+    }
+
+    /* NUCLEAR OPTION - Maximum specificity override for ALL headings */
+    html body article .prose h1,
+    html body article .prose h2,
+    html body article .prose h3,
+    html body article .prose h4,
+    html body article .prose h5,
+    html body article .prose h6,
+    html body .prose h1,
+    html body .prose h2,
+    html body .prose h3,
+    html body .prose h4,
+    html body .prose h5,
+    html body .prose h6,
+    html body h1,
+    html body h2,
+    html body h3,
+    html body h4,
+    html body h5,
+    html body h6 {
+      font-family: 'Instrument Serif', Georgia, serif !important;
+      font-weight: 700 !important;
     }
   </style>
+
+  <script>
+    // Handle lazy loading for content images
+    document.addEventListener('DOMContentLoaded', () => {
+      const images = document.querySelectorAll('.prose img');
+
+      // Add loading attribute and onload handler to content images
+      images.forEach((element) => {
+        const img = element as HTMLImageElement;
+        img.setAttribute('loading', 'lazy');
+        img.setAttribute('decoding', 'async');
+
+        // Handle image load
+        const handleLoad = () => {
+          img.classList.add('loaded');
+          img.removeEventListener('load', handleLoad);
+        };
+
+        if (img.complete) {
+          img.classList.add('loaded');
+        } else {
+          img.addEventListener('load', handleLoad);
+        }
+      });
+    });
+  </script>
 </Layout>
