@@ -8,6 +8,20 @@ const PUBLIC_IMAGES = '/Users/dave/Developer/drodolcom/public/images';
 
 async function syncImages() {
   try {
+    // Skip sync in CI environments (like Cloudflare Pages)
+    if (process.env.CF_PAGES || process.env.CI) {
+      console.log('🚀 CI environment detected, skipping image sync');
+      return;
+    }
+
+    // Check if Obsidian images directory exists
+    try {
+      await fs.access(OBSIDIAN_IMAGES);
+    } catch {
+      console.log('⚠️  Obsidian images directory not found, skipping sync');
+      return;
+    }
+
     // Ensure public/images directory exists
     await fs.mkdir(PUBLIC_IMAGES, { recursive: true });
 
