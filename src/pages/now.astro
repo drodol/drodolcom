@@ -7,54 +7,52 @@ import Layout from '../layouts/Layout.astro';
 	title="Now"
 	description="What I'm currently focused on and working on right now."
 >
-	<div class="space-y-8 prose dark:prose-invert lg:prose-lg">
-		<section>
-			<h1>What I'm Doing Now</h1>
-			<p class="text-gray-600 dark:text-gray-400">
+	<article class="space-y-8">
+		<section class="space-y-6">
+			<h1 class="text-medium-large font-serif font-bold text-medium-text leading-tight">What I'm Doing Now</h1>
+			<p class="text-medium-small text-medium-text-secondary">
 				Last updated: January 2025
 			</p>
 		</section>
 
-		<section>
-			<h2>Current Focus</h2>
-			<ul>
-				<li>Porting <a href="https://jobsinenglish.dk" class="text-blue-600 dark:text-blue-400 hover:underline">jobsinenglish.dk</a> from Django to Rails 8</li>
-				<li>Learning SEO, currently going through <a href="https://www.dannypostma.com/seo-course?via=drodol" class="text-blue-600 dark:text-blue-400 hover:underline">Danny Postma's course.</a></li>
-
+		<section class="space-y-6">
+			<h2 class="text-medium-h1 font-serif font-bold text-medium-text">Current Focus</h2>
+			<ul class="space-y-3 text-medium-body text-medium-text-secondary list-disc pl-6">
+				<li>Porting <a href="https://jobsinenglish.dk" class="text-medium-accent hover:underline font-medium">jobsinenglish.dk</a> from Django to Rails 8</li>
+				<li>Learning SEO, currently going through <a href="https://www.dannypostma.com/seo-course?via=drodol" class="text-medium-accent hover:underline font-medium">Danny Postma's course.</a></li>
 			</ul>
 		</section>
 
-		<section>
-			<h2>Reading</h2>
-			<ul>
+		<section class="space-y-6">
+			<h2 class="text-medium-h1 font-serif font-bold text-medium-text">Reading</h2>
+			<ul class="space-y-3 text-medium-body text-medium-text-secondary list-disc pl-6">
 				<li>Derek Sivers's Useful Not True</li>
-
 			</ul>
 		</section>
 
-		<section>
-			<h2>Location</h2>
-			<p>
+		<section class="space-y-6">
+			<h2 class="text-medium-h1 font-serif font-bold text-medium-text">Location</h2>
+			<p class="text-medium-body text-medium-text-secondary">
 				Currently based in Madrid, Spain.
-			<p>
-				Previously lived in:
-				<ul class="list-disc pl-8">
-					<li>Helsingør, Denmark 🇩🇰</li>
-					<li>Copenhagen, Denmark 🇩🇰</li>
-					<li>Cairo, Egypt 🇪🇬</li>
-					<li>Venezuela 🇻🇪</li>
-				</ul>
-
 			</p>
+			<p class="text-medium-body text-medium-text-secondary">
+				Previously lived in:
+			</p>
+			<ul class="space-y-2 text-medium-body text-medium-text-secondary list-disc pl-6">
+				<li>Helsingør, Denmark 🇩🇰</li>
+				<li>Copenhagen, Denmark 🇩🇰</li>
+				<li>Cairo, Egypt 🇪🇬</li>
+				<li>Venezuela 🇻🇪</li>
+			</ul>
 		</section>
 
-		<section>
-			<h2>About this page</h2>
-			<p>
-				This is a <a href="https://nownownow.com/about" class="text-blue-600 dark:text-blue-400 hover:underline">now page</a>,
-				inspired by <a href="https://sive.rs/now" class="text-blue-600 dark:text-blue-400 hover:underline">Derek Sivers</a>.
+		<section class="space-y-6">
+			<h2 class="text-medium-h1 font-serif font-bold text-medium-text">About this page</h2>
+			<p class="text-medium-body text-medium-text-secondary">
+				This is a <a href="https://nownownow.com/about" class="text-medium-accent hover:underline font-medium">now page</a>,
+				inspired by <a href="https://sive.rs/now" class="text-medium-accent hover:underline font-medium">Derek Sivers</a>.
 				It's a snapshot of what I'm focused on at this point in my life.
 			</p>
 		</section>
-	</div>
+	</article>
 </Layout>

@@ -6,35 +6,35 @@ import Layout from '../layouts/Layout.astro';
 	title="Contact"
 	description="Get in touch with Dave Rodol - Find me on social media or send me an email."
 >
-	<div class="space-y-8 prose dark:prose-invert lg:prose-lg">
-		<section>
-			<h1>Contact</h1>
-			<p>
+	<article class="space-y-8">
+		<section class="space-y-6">
+			<h1 class="text-medium-large font-serif font-bold text-medium-text leading-tight">Contact</h1>
+			<p class="text-medium-body text-medium-text-secondary">
 				I'm always open to interesting conversations and opportunities. Here's how you can reach me:
 			</p>
 		</section>
 
 		<section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-			<div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
-				<h2 class="text-xl font-semibold mb-4">Email</h2>
-				<p class="mb-4">The best way to reach me is via email:</p>
+			<div class="bg-medium-hover p-6 rounded-lg">
+				<h2 class="text-medium-h2 font-serif font-bold text-medium-text mb-4">Email</h2>
+				<p class="text-medium-body text-medium-text-secondary mb-4">The best way to reach me is via email:</p>
 				<a
 					href="mailto:contact[at]randsons.eu"
-					class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
+					class="inline-flex items-center text-medium-accent hover:underline font-medium"
 				>
 					contact[at]randsons.eu
 				</a>
 			</div>
 
-			<div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
-				<h2 class="text-xl font-semibold mb-4">Social Media</h2>
-				<ul class="space-y-2">
+			<div class="bg-medium-hover p-6 rounded-lg">
+				<h2 class="text-medium-h2 font-serif font-bold text-medium-text mb-4">Social Media</h2>
+				<ul class="space-y-3 text-medium-body text-medium-text-secondary">
 					<li>
 						<a
 							href="https://github.com/drodol"
 							target="_blank"
 							rel="noopener noreferrer"
-							class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
+							class="inline-flex items-center text-medium-accent hover:underline font-medium"
 						>
 							GitHub
 						</a>
@@ -44,7 +44,7 @@ import Layout from '../layouts/Layout.astro';
 							href="https://bsky.app/profile/drodol.com"
 							target="_blank"
 							rel="noopener noreferrer"
-							class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
+							class="inline-flex items-center text-medium-accent hover:underline font-medium"
 						>
 							Bluesky
 						</a>
@@ -54,7 +54,7 @@ import Layout from '../layouts/Layout.astro';
 							href="https://www.linkedin.com/in/davidrodriguezo/"
 							target="_blank"
 							rel="noopener noreferrer"
-							class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
+							class="inline-flex items-center text-medium-accent hover:underline font-medium"
 						>
 							LinkedIn
 						</a>
@@ -63,12 +63,12 @@ import Layout from '../layouts/Layout.astro';
 			</div>
 		</section>
 
-		<section>
-			<h2>Response Time</h2>
-			<p>
+		<section class="space-y-6">
+			<h2 class="text-medium-h1 font-serif font-bold text-medium-text">Response Time</h2>
+			<p class="text-medium-body text-medium-text-secondary">
 				I typically respond to emails within 24-48 hours. For urgent matters, reaching out via Bluesky
 				might get a faster response.
 			</p>
 		</section>
-	</div>
+	</article>
 </Layout>
